@@ -1,4 +1,4 @@
-export class TransactionType {
+export class BuyerType {
   id: string;
   name: string;
 
