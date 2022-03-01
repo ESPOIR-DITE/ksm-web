@@ -10,12 +10,19 @@ export interface ItemIngredientState extends EntityState<ItemIngredient,string>{
   providedIn: 'root',
 })
 @StoreConfig({
-  name: 'transaction', idKey: 'id', cache: {
+  name: 'transaction', idKey: 'fakeId', cache: {
     ttl: STORE_TTL,
   },
 })
 export  class ItemIngredientStore extends EntityStore<ItemIngredientState,ItemIngredient>{
   constructor() {
     super();
+  }
+
+  override akitaPreAddEntity(newEntity: ItemIngredient): ItemIngredient {
+    return {
+      ...newEntity,
+      fakeId : [newEntity.entryId, newEntity.ingredientId].join(',')
+    };
   }
 }

@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {EntityState, EntityStore, StoreConfig} from "@datorama/akita";
 import {STORE_TTL} from "../../../shared/util";
 import {Transaction} from "../../models/entry/transaction.model";
+import {TransactionType} from "../../models/entry/transaction-type.model";
 export interface TransactionTypeState extends EntityState<TransactionTypeState, string>{
 
 }
@@ -13,7 +14,7 @@ export interface TransactionTypeState extends EntityState<TransactionTypeState, 
     ttl: STORE_TTL,
   },
 })
-export class TransactionStore extends EntityStore<TransactionTypeState,Transaction>{
+export class TransactionTypeStore extends EntityStore<TransactionTypeState,TransactionType>{
   constructor() {
     super();
   }

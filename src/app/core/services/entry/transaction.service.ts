@@ -47,12 +47,12 @@ export class TransactionService {
         catchError(ApiErrors.handleError<ResponseEntity<Transaction[]>>('readEntities error')),
       );
   }
-  public deleteEntity(entity: Transaction): Observable<ResponseEntity<Transaction>> {
+  public deleteEntity(entity: Transaction): Observable<ResponseEntity<Boolean>> {
     const url = BASE_URL + this.base + 'delete?id=' + entity.id;
-    return this.http.get<ResponseEntity<Transaction>>(url, this.options)
+    return this.http.get<ResponseEntity<Boolean>>(url, this.options)
       .pipe(
-        tap(result => this.store.remove(result.body.id)),
-        catchError(ApiErrors.handleError<ResponseEntity<Transaction>>('delete Error ')));
+        tap(result => this.store.remove(entity.id)),
+        catchError(ApiErrors.handleError<ResponseEntity<Boolean>>('delete Error ')));
   }
   public readAllByDate(date: Date): Observable<ResponseEntity<Transaction[]>>{
     const url = this.base+'read-all-by-date?=date='+date;

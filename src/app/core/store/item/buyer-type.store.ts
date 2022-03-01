@@ -13,7 +13,7 @@ export interface BuyerTypeState extends EntityState<BuyerType, string>{
     ttl: STORE_TTL,
   },
 })
-export class BuyerTypeStore extends EntityStore<BuyerTypeState, string>{
+export class BuyerTypeStore extends EntityStore<BuyerTypeState, BuyerType>{
   constructor() {
     super();
   }
