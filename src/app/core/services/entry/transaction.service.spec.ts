@@ -20,22 +20,33 @@ describe('TransactionService', () => {
     http = TestBed.inject(HttpClient);
     httpController = TestBed.inject(HttpTestingController);
   });
+  afterEach(() => {
+    httpController.verify()
+  })
 
   it('service created', () =>{
     expect(service).toBeDefined();
   });
 
   it('service transaction', () =>{
+    const testData = true;
       const transactionObject = {
          id:'',
          amount:2000,
          date:new Date(),
          supplier:'FoodDistics',
-         transactionTypeId:'uirri7575'};
+         transactionTypeId:'uirri7575'
+      };
     service.createEntity(transactionObject).subscribe( result => {
       console.log(result);
-      expect(result.body).toBe(transactionObject);
-    })
+      //expect(result.body).toEqual(testData);
+    });
+    console.log(httpController)
+    const req = httpController.expectOne('localhost:9000/ksm/transaction/create')
+    console.log(req.request)
+    // const req = httpController.expectOne('transaction')
+    expect(req.request.method).toEqual('POST')
+    req.flush(testData);
   });
 
 

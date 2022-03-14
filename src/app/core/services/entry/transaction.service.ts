@@ -39,12 +39,12 @@ export class TransactionService {
         catchError(ApiErrors.handleError<ResponseEntity<Transaction>>('readEntity error')),
       );
   }
-  public readEntities(): Observable<ResponseEntity<Transaction[]>>{
+  public readEntities(): Observable<Transaction[]>{
     const url = this.base+'reads';
-    return this.http.get<ResponseEntity<Transaction[]>>(url, this.options)
+    return this.http.get<Transaction[]>(url, this.options)
       .pipe(
-        tap(result => this.store.set(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Transaction[]>>('readEntities error')),
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<Transaction[]>('readEntities error')),
       );
   }
   public deleteEntity(entity: Transaction): Observable<ResponseEntity<Boolean>> {

@@ -18,44 +18,44 @@ export class ItemService {
   constructor(private http: HttpClient,
               private store: ItemStore) {
   }
-  public createEntity(entity: Item):Observable<ResponseEntity<Item>>{
+  public createEntity(entity: Item):Observable<Item>{
     const url = this.base+'create';
-    return this.http.post<ResponseEntity<Item>>(url,entity,this.options)
+    return this.http.post<Item>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Item>>('create error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<Item>('create error'))
       )
   }
-  public updateEntity(entity: Item):Observable<ResponseEntity<Item>>{
+  public updateEntity(entity: Item):Observable<Item>{
     const url = this.base+'update';
-    return this.http.post<ResponseEntity<Item>>(url,entity,this.options)
+    return this.http.post<Item>(url,entity,this.options)
       .pipe(
         tap(result => this.store.replace(entity.id,entity)),
-        catchError(ApiErrors.handleError<ResponseEntity<Item>>('update error'))
+        catchError(ApiErrors.handleError<Item>('update error'))
       )
   }
-  public readEntity(id: string):Observable<ResponseEntity<Item>>{
+  public readEntity(id: string):Observable<Item | undefined>{
     const url = this.base+'read?id='+id;
-    return this.http.get<ResponseEntity<Item>>(url,this.options)
+    return this.http.get<Item>(url,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Item>>('read error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<Item>('read error'))
       )
   }
-  public deleteEntity(entity: Item):Observable<ResponseEntity<Item>>{
+  public deleteEntity(entity: Item):Observable<boolean|undefined>{
     const url = this.base+'delete?id='+entity.id;
-    return this.http.get<ResponseEntity<Item>>(url,this.options)
+    return this.http.get<boolean>(url,this.options)
       .pipe(
         tap(result => this.store.remove(entity.id)),
-        catchError(ApiErrors.handleError<ResponseEntity<Item>>('delete error'))
+        catchError(ApiErrors.handleError<boolean>('delete error'))
       )
   }
-  public  readEntities():Observable<ResponseEntity<Item[]>>{
+  public  readEntities():Observable<Item[]>{
     const url = this.base+'reads';
-    return this.http.get<ResponseEntity<Item[]>>(url,this.options)
+    return this.http.get<Item[]>(url,this.options)
       .pipe(
-        tap(result => this.store.set(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Item[]>>('reads error'))
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<Item[]>('reads error'))
       )
   }
 }

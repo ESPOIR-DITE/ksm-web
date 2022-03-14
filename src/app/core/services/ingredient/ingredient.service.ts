@@ -18,44 +18,44 @@ export class IngredientService {
   constructor(private http: HttpClient,
               private store: IngredientStore) {
   }
-  public createEntity(entity: Ingredient):Observable<ResponseEntity<Ingredient>>{
+  public createEntity(entity: Ingredient):Observable<Ingredient|undefined>{
     const url = this.base+'create';
-    return this.http.post<ResponseEntity<Ingredient>>(url,entity,this.options)
+    return this.http.post<Ingredient>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Ingredient>>('create error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<Ingredient>('create error'))
       )
   }
-  public updateEntity(entity: Ingredient):Observable<ResponseEntity<Ingredient>>{
+  public updateEntity(entity: Ingredient):Observable<Ingredient|undefined>{
     const url = this.base+'update';
-    return this.http.post<ResponseEntity<Ingredient>>(url,entity,this.options)
+    return this.http.post<Ingredient>(url,entity,this.options)
       .pipe(
         tap(result => this.store.replace(entity.id,entity)),
-        catchError(ApiErrors.handleError<ResponseEntity<Ingredient>>('update error'))
+        catchError(ApiErrors.handleError<Ingredient>('update error'))
       )
   }
-  public readEntity(id: string):Observable<ResponseEntity<Ingredient>>{
+  public readEntity(id: string):Observable<Ingredient>{
     const url = this.base+'read?id='+id;
-    return this.http.get<ResponseEntity<Ingredient>>(url,this.options)
+    return this.http.get<Ingredient>(url,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Ingredient>>('read error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<Ingredient>('read error'))
       )
   }
-  public deleteEntity(entity: Ingredient):Observable<ResponseEntity<Ingredient>>{
+  public deleteEntity(entity: Ingredient):Observable<boolean | undefined>{
     const url = this.base+'delete?id='+entity.id;
-    return this.http.get<ResponseEntity<Ingredient>>(url,this.options)
+    return this.http.get<boolean>(url,this.options)
       .pipe(
         tap(result => this.store.remove(entity.id)),
-        catchError(ApiErrors.handleError<ResponseEntity<Ingredient>>('delete error'))
+        catchError(ApiErrors.handleError<boolean>('delete error'))
       )
   }
-  public readEntities():Observable<ResponseEntity<Ingredient[]>>{
+  public readEntities():Observable<Ingredient[]>{
     const url = this.base+'reads';
-    return this.http.get<ResponseEntity<Ingredient[]>>(url,this.options)
+    return this.http.get<Ingredient[]>(url,this.options)
       .pipe(
-        tap(result => this.store.set(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Ingredient[]>>('reads error'))
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<Ingredient[]>('reads error'))
       )
   }
 }

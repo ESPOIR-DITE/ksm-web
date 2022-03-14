@@ -20,20 +20,20 @@ export class ItemIngredientService {
   constructor(private http: HttpClient,
               private store: ItemIngredientStore) {
   }
-  public createEntity(entity: ItemIngredient):Observable<ResponseEntity<ItemIngredient>>{
+  public createEntity(entity: ItemIngredient):Observable<ItemIngredient>{
     const url = this.base+'create';
-    return this.http.post<ResponseEntity<ItemIngredient>>(url,entity,this.options)
+    return this.http.post<ItemIngredient>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<ItemIngredient>>('create error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<ItemIngredient>('create error'))
       )
   }
-  public updateEntity(entity: ItemIngredient):Observable<ResponseEntity<ItemIngredient>>{
+  public updateEntity(entity: ItemIngredient):Observable<ItemIngredient>{
     const url = this.base+'update';
-    return this.http.post<ResponseEntity<ItemIngredient>>(url,entity,this.options)
+    return this.http.post<ItemIngredient>(url,entity,this.options)
       .pipe(
         tap(result => this.store.replace(entity.fakeId,entity)),
-        catchError(ApiErrors.handleError<ResponseEntity<ItemIngredient>>('update error'))
+        catchError(ApiErrors.handleError<ItemIngredient>('update error'))
       )
   }
   public readEntity(id: string):Observable<ResponseEntity<ItemIngredient>>{
@@ -60,12 +60,12 @@ export class ItemIngredientService {
         catchError(ApiErrors.handleError<ResponseEntity<ItemIngredient[]>>('reads error'))
       )
   }
-  public  findAllByEntryId(entryId: string):Observable<ResponseEntity<ItemIngredient[]>>{
+  public  findAllByEntryId(entryId: string):Observable<ItemIngredient[]>{
     const url = this.base+'find-all-by-entry-id?entryId='+entryId;
-    return this.http.get<ResponseEntity<ItemIngredient[]>>(url,this.options)
+    return this.http.get<ItemIngredient[]>(url,this.options)
       .pipe(
-        tap(result => this.store.set(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<ItemIngredient[]>>('reads error'))
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<ItemIngredient[]>('reads error'))
       )
   }
   public  findAllByIngredientId(ingredientId: string):Observable<ResponseEntity<ItemIngredient[]>>{

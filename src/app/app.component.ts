@@ -1,10 +1,19 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MAIN_MENU} from "./core/menus/main-menu";
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: `
+    <router-outlet></router-outlet>
+  `,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ksm-web';
+  menu= MAIN_MENU ;
+
+  constructor() {
+  }
+
+  ngOnInit(): void {
+  }
 }

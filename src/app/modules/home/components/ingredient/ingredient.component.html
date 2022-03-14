@@ -1,0 +1,42 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col">
+        Ingredient
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary" type="button" (click)="onCreate()">Create</button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="loading"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="large"
+                nbSpinnerMessage="">
+    <table class="table  text-white">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">brand</th>
+        <th scope="col">Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ingredient of ingredients; let indexOfElement = index" (click)="readIngredient(ingredient.id)">
+        <th scope="row"><a>{{indexOfElement+1}}</a></th>
+        <td><a>{{ingredient.name}}</a></td>
+        <td><a>{{ingredient.brand}}</a></td>
+        <td ><a>{{ingredient.quantityType}}</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+  <nb-card-footer>
+<!--    <div class="d-grid gap-2 d-md-flex justify-content-md-end">-->
+<!--      <button class="btn btn-danger ms-1" type="button">Delete</button>-->
+<!--      <button class="btn btn-warning" type="button">Update</button>-->
+<!--    </div>-->
+  </nb-card-footer>
+</nb-card>
+

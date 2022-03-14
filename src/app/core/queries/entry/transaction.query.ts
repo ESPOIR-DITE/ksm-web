@@ -45,4 +45,9 @@ export class TransactionQuery extends QueryEntity<TransactionState, Transaction>
     }
     return false;
   }
+  getEntities():Observable<Transaction[]>{
+    if(!this.hasEntity())
+      return this.service.readEntities();
+    return this.selectAll();
+  }
 }

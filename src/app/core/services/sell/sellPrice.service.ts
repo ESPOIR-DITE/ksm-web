@@ -22,7 +22,7 @@ export class SellPriceService {
   constructor(private http: HttpClient,
               private store: SellPriceStore) {
   }
-  public createEntity(entity: SellPrice):Observable<ResponseEntity<SellPrice>>{
+  public  createEntity(entity: SellPrice):Observable<ResponseEntity<SellPrice>>{
     const url = this.base+'create';
     return this.http.post<ResponseEntity<SellPrice>>(url,entity,this.options)
       .pipe(
@@ -30,7 +30,7 @@ export class SellPriceService {
         catchError(ApiErrors.handleError<ResponseEntity<SellPrice>>('create error'))
       )
   }
-  public updateEntity(entity: SellPrice):Observable<ResponseEntity<SellPrice>>{
+  public  updateEntity(entity: SellPrice):Observable<ResponseEntity<SellPrice>>{
     const url = this.base+'update';
     return this.http.post<ResponseEntity<SellPrice>>(url,entity,this.options)
       .pipe(
@@ -38,7 +38,7 @@ export class SellPriceService {
         catchError(ApiErrors.handleError<ResponseEntity<SellPrice>>('update error'))
       )
   }
-  public readEntity(id: string):Observable<ResponseEntity<SellPrice>>{
+  public  readEntity(id: string):Observable<ResponseEntity<SellPrice>>{
     const url = this.base+'read?id='+id;
     return this.http.get<ResponseEntity<SellPrice>>(url,this.options)
       .pipe(
@@ -46,7 +46,7 @@ export class SellPriceService {
         catchError(ApiErrors.handleError<ResponseEntity<SellPrice>>('read error'))
       )
   }
-  public deleteEntity(entity: SellPrice):Observable<ResponseEntity<SellPrice>>{
+  public  deleteEntity(entity: SellPrice):Observable<ResponseEntity<SellPrice>>{
     const url = this.base+'delete?id='+entity.id;
     return this.http.get<ResponseEntity<SellPrice>>(url,this.options)
       .pipe(

@@ -31,17 +31,12 @@ export class ItemIngredientQuery extends QueryEntity<ItemIngredientState, ItemIn
     private service: ItemIngredientService) {
     super(store);
   }
-  createBuyerType(entity: ItemIngredient, isUpdate:boolean): ItemIngredient | undefined{
+  createItemIngredient(entity: ItemIngredient, isUpdate:boolean):Observable<ItemIngredient | undefined>{
     if(isUpdate){
-      this.service.updateEntity(entity).subscribe(result =>{
-        return result.body;
-      })
-    }else {
-      this.service.createEntity(entity).subscribe(result => {
-        return result.body;
-      })
-    }
-    return undefined;
+      return this.service.updateEntity(entity);
+    }else
+      return this.service.createEntity(entity);
+
   }
   getBuyerType(id: string): ItemIngredient | undefined{
     if(!this.hasEntity(id)) {
@@ -73,20 +68,15 @@ export class ItemIngredientQuery extends QueryEntity<ItemIngredientState, ItemIn
     });
     return undefined;
   }
-  findAllByEntryId(entryId: string):ItemIngredient[] | undefined {
+  findAllByEntryId(entryId: string):Observable<ItemIngredient[]> {
     if(!this.hasEntity()) {
-      this.service.findAllByEntryId(entryId).subscribe( result => {
-        return result.body;
-      });
+      return this.service.findAllByEntryId(entryId)
     }
-    this.selectAll(
+    return this.selectAll(
       {
         filterBy: [ entity => entity.entryId === entryId]
       }
-    ).subscribe(result =>{
-      return result;
-    });
-    return undefined;
+    );
   }
   findAllByIngredientId(ingredientId: string):ItemIngredient[] | undefined {
     if(!this.hasEntity()) {

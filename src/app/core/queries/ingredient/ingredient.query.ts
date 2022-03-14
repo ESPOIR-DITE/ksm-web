@@ -17,47 +17,28 @@ export class IngredientQuery extends QueryEntity<IngredientState, Ingredient> {
     private service: IngredientService) {
     super(store);
   }
-  createTransaction(entity: Ingredient, isUpdate:boolean): Ingredient | undefined{
+  createIngredient(entity: Ingredient, isUpdate:boolean): Observable<Ingredient|undefined>{
     if(isUpdate){
-      this.service.updateEntity(entity).subscribe(result =>{
-        return result.body;
-      })
-    }else {
-      this.service.createEntity(entity).subscribe(result => {
-        return result.body;
-      })
+      return this.service.updateEntity(entity)
     }
-    return undefined;
+     return  this.service.createEntity(entity);
+
   }
-  getTransaction(id: string): Ingredient | undefined{
+  getIngredient(id: string): Observable<Ingredient|undefined> {
     if(!this.hasEntity(id)) {
-      this.service.readEntity(id).subscribe( result => {
-        return result.body;
-      });
+      return this.service.readEntity(id);
     }
-    this.selectEntity(id).subscribe(result =>{
-      return result;
-    });
-    return undefined;
+    return this.selectEntity(id);
+
   }
-  deleteEntity(entity: Ingredient): boolean | undefined{
-    if(!this.hasEntity(entity.id)){
-      this.service.deleteEntity(entity).subscribe(result => {
-        return result.body;
-      })
-    }
-    return false;
+  deleteEntity(entity: Ingredient): Observable<boolean | undefined>{
+      return this.service.deleteEntity(entity);
   }
-  getEntities():Ingredient[] | undefined {
+  getEntities(): Observable<Ingredient[]> {
     if(!this.hasEntity()) {
-      this.service.readEntities().subscribe( result => {
-        return result.body;
-      });
+        return this.service.readEntities();
     }
-    this.selectAll().subscribe(result =>{
-      return result;
-    });
-    return undefined;
+    return this.selectAll()
   }
 }
 

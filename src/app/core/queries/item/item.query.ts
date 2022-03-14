@@ -23,47 +23,24 @@ export class ItemQuery extends QueryEntity<ItemState, Item> {
     private service: ItemService) {
     super(store);
   }
-  createBuyerType(entity: Item, isUpdate:boolean): Item | undefined{
-    if(isUpdate){
-      this.service.updateEntity(entity).subscribe(result =>{
-        return result.body;
-      })
-    }else {
-      this.service.createEntity(entity).subscribe(result => {
-        return result.body;
-      })
-    }
-    return undefined;
+  createItem(entity: Item, isUpdate:boolean): Observable<Item | undefined>{
+    if(isUpdate) return this.service.updateEntity(entity);
+      return this.service.createEntity(entity)
   }
-  getBuyerType(id: string): Item | undefined{
+  getBuyerType(id: string): Observable<Item | undefined>{
     if(!this.hasEntity(id)) {
-      this.service.readEntity(id).subscribe( result => {
-        return result.body;
-      });
+      return this.service.readEntity(id)
     }
-    this.selectEntity(id).subscribe(result =>{
-      return result;
-    });
-    return undefined;
+    return this.selectEntity(id)
   }
-  deleteEntity(entity: Item): boolean | undefined{
-    if(!this.hasEntity(entity.id)){
-      this.service.deleteEntity(entity).subscribe(result => {
-        return result.body;
-      })
-    }
-    return false;
+  deleteEntity(entity: Item): Observable<boolean|undefined>{
+     return  this.service.deleteEntity(entity)
   }
-  getEntities():Item[] | undefined {
+  getEntities():Observable<Item[] | undefined> {
     if(!this.hasEntity()) {
-      this.service.readEntities().subscribe( result => {
-        return result.body;
-      });
+     return  this.service.readEntities();
     }
-    this.selectAll().subscribe(result =>{
-      return result;
-    });
-    return undefined;
+     return this.selectAll();
   }
 }
 
