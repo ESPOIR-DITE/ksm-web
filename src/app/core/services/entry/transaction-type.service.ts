@@ -16,28 +16,28 @@ export class TransactionTypeService {
   constructor(private http: HttpClient,
               private store: TransactionTypeStore) {
   }
-  public createEntity(entity: TransactionType):Observable<ResponseEntity<TransactionType>>{
+  public createEntity(entity: TransactionType):Observable<TransactionType>{
     const url = this.base+'create';
-    return this.http.post<ResponseEntity<TransactionType>>(url,entity,this.options)
+    return this.http.post<TransactionType>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<TransactionType>>('create error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<TransactionType>('create error'))
       )
   }
-  public updateEntity(entity: TransactionType):Observable<ResponseEntity<TransactionType>>{
+  public updateEntity(entity: TransactionType):Observable<TransactionType>{
     const url = this.base+'update';
-    return this.http.post<ResponseEntity<TransactionType>>(url,entity,this.options)
+    return this.http.post<TransactionType>(url,entity,this.options)
       .pipe(
         tap(result => this.store.replace(entity.id,entity)),
-        catchError(ApiErrors.handleError<ResponseEntity<TransactionType>>('update error'))
+        catchError(ApiErrors.handleError<TransactionType>('update error'))
       )
   }
-  public readEntity(id: string):Observable<ResponseEntity<TransactionType>>{
+  public readEntity(id: string):Observable<TransactionType>{
     const url = this.base+'read?id='+id;
-    return this.http.get<ResponseEntity<TransactionType>>(url,this.options)
+    return this.http.get<TransactionType>(url,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<TransactionType>>('read error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<TransactionType>('read error'))
       )
   }
   public deleteEntity(entity: TransactionType):Observable<ResponseEntity<TransactionType>>{
@@ -48,12 +48,12 @@ export class TransactionTypeService {
         catchError(ApiErrors.handleError<ResponseEntity<TransactionType>>('delete error'))
       )
   }
-  public readEntities():Observable<ResponseEntity<TransactionType[]>>{
+  public readEntities():Observable<TransactionType[]>{
     const url = this.base+'reads';
-    return this.http.get<ResponseEntity<TransactionType[]>>(url,this.options)
+    return this.http.get<TransactionType[]>(url,this.options)
       .pipe(
-        tap(result => this.store.set(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<TransactionType[]>>('reads error'))
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<TransactionType[]>('reads error'))
       )
   }
 

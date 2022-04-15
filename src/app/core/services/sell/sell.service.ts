@@ -1,12 +1,8 @@
 import {Injectable} from "@angular/core";
 import {BASE_URL, ResponseEntity, Util} from "../../../shared/util";
 import {HttpClient} from "@angular/common/http";
-import {IngredientTransactionStore} from "../../store/ingredient/ingredient-transaction.store";
-import {ItemStore} from "../../store/item/item.store";
-import {IngredientTransaction} from "../../models/ingredient/ingredient-transaction.model";
 import {catchError, Observable, tap} from "rxjs";
 import {ApiErrors} from "../../../shared/ApiErrors";
-import {Item} from "../../models/item/item.model";
 import {SellStore} from "../../store/sell/sell.store";
 import {Sell} from "../../models/sell/sell.model";
 
@@ -20,28 +16,28 @@ export class SellService {
   constructor(private http: HttpClient,
               private store: SellStore) {
   }
-  public createEntity(entity: Sell):Observable<ResponseEntity<Sell>>{
+  public createEntity(entity: Sell):Observable<Sell>{
     const url = this.base+'create';
-    return this.http.post<ResponseEntity<Sell>>(url,entity,this.options)
+    return this.http.post<Sell>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Sell>>('create error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<Sell>('create error'))
       )
   }
-  public updateEntity(entity: Sell):Observable<ResponseEntity<Sell>>{
+  public updateEntity(entity: Sell):Observable<Sell>{
     const url = this.base+'update';
-    return this.http.post<ResponseEntity<Sell>>(url,entity,this.options)
+    return this.http.post<Sell>(url,entity,this.options)
       .pipe(
         tap(result => this.store.replace(entity.id,entity)),
-        catchError(ApiErrors.handleError<ResponseEntity<Sell>>('update error'))
+        catchError(ApiErrors.handleError<Sell>('update error'))
       )
   }
-  public readEntity(id: string):Observable<ResponseEntity<Sell>>{
+  public readEntity(id: string):Observable<Sell>{
     const url = this.base+'read?id='+id;
-    return this.http.get<ResponseEntity<Sell>>(url,this.options)
+    return this.http.get<Sell>(url,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Sell>>('read error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<Sell>('read error'))
       )
   }
   public deleteEntity(entity: Sell):Observable<ResponseEntity<Sell>>{
@@ -52,12 +48,12 @@ export class SellService {
         catchError(ApiErrors.handleError<ResponseEntity<Sell>>('delete error'))
       )
   }
-  public  readEntities():Observable<ResponseEntity<Sell[]>>{
+  public  readEntities():Observable<Sell[]>{
     const url = this.base+'reads';
-    return this.http.get<ResponseEntity<Sell[]>>(url,this.options)
+    return this.http.get<Sell[]>(url,this.options)
       .pipe(
-        tap(result => this.store.set(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Sell[]>>('reads error'))
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<Sell[]>('reads error'))
       )
   }
 }

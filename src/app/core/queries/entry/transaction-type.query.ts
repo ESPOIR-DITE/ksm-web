@@ -17,28 +17,22 @@ export class TransactionTypeQuery extends QueryEntity<TransactionTypeState, Tran
     private service: TransactionTypeService) {
     super(store);
   }
-  createTransactionType(entity: TransactionType, isUpdate:boolean): TransactionType | undefined{
+  createTransactionType(entity: TransactionType, isUpdate:boolean): Observable<TransactionType | undefined>{
     if(isUpdate){
-      this.service.updateEntity(entity).subscribe(result =>{
-        return result.body;
-      })
+      return this.service.updateEntity(entity)
     }else {
-      this.service.createEntity(entity).subscribe(result => {
-        return result.body;
-      })
+      return this.service.createEntity(entity)
     }
-    return undefined;
   }
-  getTransactionType(id: string): TransactionType | undefined{
-    if(!this.hasEntity(id)) {
-      this.service.readEntity(id).subscribe( result => {
-        return result.body;
-      });
-    }
-    this.selectEntity(id).subscribe(result =>{
-      return result;
-    });
-    return undefined;
+  getTransactionType(id: string): Observable<TransactionType | undefined>{
+    if(!this.hasEntity(id))
+      return this.service.readEntity(id)
+    return this.selectEntity(id)
+  }
+  getTransactionTypes():Observable<TransactionType[]>{
+    if(!this.hasEntity())
+      return this.service.readEntities();
+    return this.selectAll();
   }
   deleteEntity(entity: TransactionType): boolean | undefined{
     if(!this.hasEntity(entity.id)){

@@ -23,8 +23,6 @@ export class QuantityTypeComponent implements OnInit {
       this.quantityTypeQuery.getEntities()?.subscribe(result =>{
         this.quantityTypes = result;
       });
-    console.log('quantity type');
-    console.log(this.quantityTypes);
   }
   getQuantityType(): QuantityType{
     return new QuantityType('', this.quantityTypeForm.value.name,this.quantityTypeForm.value.descrption);

@@ -1,0 +1,42 @@
+<nb-card>
+  <nb-card-header>
+    Current Ingredient Stock
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="loading"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="large"
+                nbSpinnerMessage="">
+    <table class="table  text-white">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Ingredient</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Date</th>
+        <th scope="col">Exp Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let stock of stocks; let indexOfElement = index" (click)="viewTransaction(stock.transactionId)" >
+        <th scope="row"><a>{{indexOfElement+1}}</a></th>
+        <td>{{stock.ingredientId}}</td>
+        <td>{{stock.quantity}}</td>
+        <td>{{stock.price*stock.quantity|number}}</td>
+        <td>{{stock.brand}}</td>
+        <td> {{stock.date|date}}</td>
+        <td> {{stock.expirationDate|date}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="col">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <label>Total Money In Ingredients: </label>
+        <a type="button"class="btn btn-info">{{ingredientTotalMoney|number}}</a>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>

@@ -36,10 +36,11 @@ export class ItemCreateFormComponent implements OnInit {
     if(this.itemForm?.invalid) return;
     let item = this.getItem();
     if(item!=null){
-      let result = this.itemQuery.createItem(item,false).subscribe( result =>{
+      this.itemQuery.createItem(item,false).subscribe( result =>{
         if(result){
           this.showToast(STATUS.SUCCESS,'Success','Item created')
           this.itemForm.reset();
+          this.route.navigate(['/item/view/'+result.id])
         }else{
           this.showToast(STATUS.DANGER,'Fail','Item Failed to be created')
         }

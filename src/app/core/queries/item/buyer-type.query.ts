@@ -20,47 +20,25 @@ export class BuyerTypeQuery extends QueryEntity<BuyerTypeState, BuyerType> {
     private service: BuyerTypeService) {
     super(store);
   }
-  createBuyerType(entity: BuyerType, isUpdate:boolean): BuyerType | undefined{
+  createBuyerType(entity: BuyerType, isUpdate:boolean): Observable<BuyerType | undefined>{
     if(isUpdate){
-      this.service.updateEntity(entity).subscribe(result =>{
-        return result.body;
-      })
-    }else {
-      this.service.createEntity(entity).subscribe(result => {
-        return result.body;
-      })
-    }
-    return undefined;
+      return this.service.updateEntity(entity)
+    }else
+      return this.service.createEntity(entity)
   }
-  getBuyerType(id: string): BuyerType | undefined{
-    if(!this.hasEntity(id)) {
-      this.service.readEntity(id).subscribe( result => {
-        return result.body;
-      });
-    }
-    this.selectEntity(id).subscribe(result =>{
-      return result;
-    });
-    return undefined;
+  getBuyerType(id: string): Observable<BuyerType|undefined>{
+    if(!this.hasEntity(id))
+      return this.service.readEntity(id)
+    return this.selectEntity(id)
   }
-  deleteEntity(entity: BuyerType): boolean | undefined{
-    if(!this.hasEntity(entity.id)){
-      this.service.deleteEntity(entity).subscribe(result => {
-        return result.body;
-      })
-    }
-    return false;
+  deleteEntity(id: string): Observable<boolean>{
+     return  this.service.deleteEntity(id)
   }
-  getEntities():BuyerType[] | undefined {
+  getEntities():Observable<BuyerType[]> {
     if(!this.hasEntity()) {
-      this.service.readEntities().subscribe( result => {
-        return result.body;
-      });
+      return this.service.readEntities()
     }
-    this.selectAll().subscribe(result =>{
-      return result;
-    });
-    return undefined;
+    return this.selectAll()
   }
 }
 

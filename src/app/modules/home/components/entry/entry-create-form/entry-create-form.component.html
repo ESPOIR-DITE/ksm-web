@@ -1,1 +1,65 @@
-<p>entry-create-form works!</p>
+<nb-card>
+  <nb-card-header>
+    New Entry
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="transactionForm">
+      <div class="mb-3 row">
+        <label for="transactionType" class="col-sm-2 col-form-label ">Transaction Type</label>
+        <div class="col-sm-10">
+          <select class="form-select" formControlName="transactionType" id="transactionType" aria-label="Default select example">
+            <option selected>Open this select menu</option>
+            <option *ngFor="let transactionType of transactionTypes" value="{{transactionType.id}}">{{transactionType.name}}</option>
+          </select>
+          <ng-container *ngIf="formFields['transactionType'].invalid && formFields['transactionType'].touched">
+            <p class="text-danger">transaction type is required!</p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="date" class="col-sm-2 col-form-label">Date</label>
+        <div class="col-sm-10">
+          <input type="date" formControlName="date" class="form-control" id="date">
+          <ng-container *ngIf="formFields['date'].invalid && formFields['date'].touched">
+            <p class="text-danger">Date is required!</p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="supplier" class="col-sm-2 col-form-label ">Supplier</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="supplier" class="form-control" id="supplier">
+          <ng-container *ngIf="formFields['supplier'].invalid && formFields['supplier'].touched">
+            <p class="text-danger">supplier is required!</p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="price" class="col-sm-2 col-form-label ">Total Amount</label>
+        <div class="col-sm-10">
+          <input type="number" formControlName="price" class="form-control" id="price">
+          <ng-container *ngIf="formFields['price'].invalid && formFields['price'].touched">
+            <p class="text-danger">Amount is required!</p>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+  <nb-card-footer>
+
+    <div class="row">
+      <div class="col">
+        <button type="button"  (click)="onBack()" class="btn btn-primary">Back
+        </button>
+      </div>
+      <div class="col">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="button" [disabled]="transactionForm?.invalid" (click)="onSubmit()"
+                  class="btn btn-primary">Save
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </nb-card-footer>
+</nb-card>

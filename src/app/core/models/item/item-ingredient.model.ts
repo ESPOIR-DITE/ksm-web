@@ -1,12 +1,12 @@
 export class ItemIngredient {
-  fakeId: string;
+  id: string;
   entryId: string;
   ingredientId: string;
   quantity: number;
   description: string;
 
-  constructor(fakeId: string,entryId: string, ingredientId: string, quantity: number, description: string) {
-    this.fakeId = fakeId;
+  constructor(id: string,entryId: string, ingredientId: string, quantity: number, description: string) {
+    this.id = id;
     this.entryId = entryId;
     this.ingredientId = ingredientId;
     this.quantity = quantity;

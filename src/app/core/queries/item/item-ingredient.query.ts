@@ -50,7 +50,7 @@ export class ItemIngredientQuery extends QueryEntity<ItemIngredientState, ItemIn
     return undefined;
   }
   deleteEntity(entity: ItemIngredient): boolean | undefined{
-    if(!this.hasEntity(entity.fakeId)){
+    if(!this.hasEntity(entity.id)){
       this.service.deleteEntity(entity).subscribe(result => {
         return result.body;
       })

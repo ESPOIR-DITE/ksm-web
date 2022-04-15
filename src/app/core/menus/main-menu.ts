@@ -39,9 +39,22 @@ const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
-    title: 'Entry',
-    icon: 'car-outline',
-    link: '/entry'
+    title: 'Depot',
+    icon: 'shopping-cart-outline',
+    home: true,
+    children: [
+      {
+        title: 'Entry',
+        icon: 'car-outline',
+        link: '/entry'
+      },
+      {
+        title: 'Stock',
+        icon: 'archive-outline',
+        link: '/stock'
+      }
+    ]
+
   },
   {
     title: 'Transaction',
@@ -63,6 +76,17 @@ const MENU_ITEMS: NbMenuItem[] = [
         icon: 'corner-up-right-outline',
         link: '/sell',
       },
+      {
+        title: 'period',
+        icon: 'clock-outline',
+        link: '/period',
+      },
+      {
+        title: 'buyer type',
+        icon: 'people-outline',
+        link: '/buyer-type',
+      },
+
     ],
   },
 ]

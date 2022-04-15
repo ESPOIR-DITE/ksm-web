@@ -1,0 +1,50 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col">
+        Daily Sells
+      </div>
+      <div class="col">
+        <h5>{{DayDate| date:'fullDate'}}</h5>
+      </div>
+      <div class="col">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button class="btn btn-primary" type="button" (click)="onCreate(periodTask!.id)">Register new sell</button>
+        </div>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="loading"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="large"
+                nbSpinnerMessage="">
+    <table class="table  text-white">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Item</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let sell of sells; let indexOfElement = index" (click)="readSell(sell.id)">
+        <th scope="row"><a>{{indexOfElement+1}}</a></th>
+        <td><a>{{sell.itemId}}</a></td>
+        <td><a>{{sell.customerId}}</a></td>
+        <td><a>{{sell.quantity}}</a></td>
+        <td ><a>{{sell.price}}</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="col">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <label>Total Sell : </label>
+        <a type="button"class="btn btn-info">R {{totalSell|number}}</a>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>

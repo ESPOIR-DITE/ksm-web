@@ -15,28 +15,28 @@ export class TransactionService {
   constructor(private http: HttpClient,
               private store: TransactionStore) {
   }
-  public createEntity(entity: Transaction): Observable<ResponseEntity<Transaction>>{
+  public createEntity(entity: Transaction): Observable<Transaction>{
     const url = this.base+'create';
-    return this.http.post<ResponseEntity<Transaction>>(url, entity,this.options)
+    return this.http.post<Transaction>(url, entity,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Transaction>>('create error')),
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<Transaction>('create error')),
       );
   }
-  public updateEntity(entity: Transaction): Observable<ResponseEntity<Transaction>>{
+  public updateEntity(entity: Transaction): Observable<Transaction>{
     const url = this.base+'update';
-    return this.http.post<ResponseEntity<Transaction>>(url, entity,this.options)
+    return this.http.post<Transaction>(url, entity,this.options)
       .pipe(
         tap(_ => this.store.replace(entity.id, entity)),
-        catchError(ApiErrors.handleError<ResponseEntity<Transaction>>('update error')),
+        catchError(ApiErrors.handleError<Transaction>('update error')),
       );
   }
-  public readEntity(id: string): Observable<ResponseEntity<Transaction>>{
+  public readEntity(id: string): Observable<Transaction>{
     const url = this.base+'read?id=' +id;
-    return this.http.get<ResponseEntity<Transaction>>(url, this.options)
+    return this.http.get<Transaction>(url, this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<Transaction>>('readEntity error')),
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<Transaction>('readEntity error')),
       );
   }
   public readEntities(): Observable<Transaction[]>{
@@ -47,12 +47,12 @@ export class TransactionService {
         catchError(ApiErrors.handleError<Transaction[]>('readEntities error')),
       );
   }
-  public deleteEntity(entity: Transaction): Observable<ResponseEntity<Boolean>> {
+  public deleteEntity(entity: Transaction): Observable<Boolean> {
     const url = BASE_URL + this.base + 'delete?id=' + entity.id;
-    return this.http.get<ResponseEntity<Boolean>>(url, this.options)
+    return this.http.get<Boolean>(url, this.options)
       .pipe(
         tap(result => this.store.remove(entity.id)),
-        catchError(ApiErrors.handleError<ResponseEntity<Boolean>>('delete Error ')));
+        catchError(ApiErrors.handleError<Boolean>('delete Error ')));
   }
   public readAllByDate(date: Date): Observable<ResponseEntity<Transaction[]>>{
     const url = this.base+'read-all-by-date?=date='+date;

@@ -22,20 +22,20 @@ export class SellPriceService {
   constructor(private http: HttpClient,
               private store: SellPriceStore) {
   }
-  public  createEntity(entity: SellPrice):Observable<ResponseEntity<SellPrice>>{
+  public  createEntity(entity: SellPrice):Observable<SellPrice>{
     const url = this.base+'create';
-    return this.http.post<ResponseEntity<SellPrice>>(url,entity,this.options)
+    return this.http.post<SellPrice>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<SellPrice>>('create error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<SellPrice>('create error'))
       )
   }
-  public  updateEntity(entity: SellPrice):Observable<ResponseEntity<SellPrice>>{
+  public  updateEntity(entity: SellPrice):Observable<SellPrice>{
     const url = this.base+'update';
-    return this.http.post<ResponseEntity<SellPrice>>(url,entity,this.options)
+    return this.http.post<SellPrice>(url,entity,this.options)
       .pipe(
         tap(result => this.store.replace(entity.id,entity)),
-        catchError(ApiErrors.handleError<ResponseEntity<SellPrice>>('update error'))
+        catchError(ApiErrors.handleError<SellPrice>('update error'))
       )
   }
   public  readEntity(id: string):Observable<ResponseEntity<SellPrice>>{
@@ -86,12 +86,29 @@ export class SellPriceService {
         catchError(ApiErrors.handleError<ResponseEntity<SellPrice[]>>('reads error'))
       )
   }
-  public  findAllByItemIdAndBuyerTYpeId(itemId: string, buyerId: string):Observable<ResponseEntity<SellPrice[]>>{
-    const url = this.base+'find-all-by-item-id-and-buyer-type-id?itemId='+itemId+'&buyerId='+buyerId;
-    return this.http.get<ResponseEntity<SellPrice[]>>(url,this.options)
+  getActiveSellPrice(itemId: string, buyerTypeId: string):Observable<SellPrice>{
+    const url = this.base+'find-by-item-and-buyer-type?itemId='+itemId+'&buyerId='+buyerTypeId;
+    return this.http.get<SellPrice>(url,this.options)
       .pipe(
-        tap(result => this.store.set(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<SellPrice[]>>('reads error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<SellPrice>('reads error'))
+      )
+  }
+  getAllByItemId(itemId: string):Observable<SellPrice[]>{
+    const url = this.base+'find-all-by-item-id?itemId='+itemId;
+    return this.http.get<SellPrice[]>(url,this.options)
+      .pipe(
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<SellPrice[]>('reads error'))
+      )
+  }
+
+  public  findAllByItemIdAndBuyerTYpeId(itemId: string, buyerId: string):Observable<SellPrice[]>{
+    const url = this.base+'find-all-by-item-id-and-buyer-type-id?itemId='+itemId+'&buyerId='+buyerId;
+    return this.http.get<SellPrice[]>(url,this.options)
+      .pipe(
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<SellPrice[]>('reads error'))
       )
   }
 }

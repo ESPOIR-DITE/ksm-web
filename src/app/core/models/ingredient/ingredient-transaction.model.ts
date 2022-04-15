@@ -1,16 +1,16 @@
 export  class IngredientTransaction {
-  fakeId: string;
+  id: string;
   entryId: string;
   transactionId: string;
   ingredientId: string;
-  quantity: string;
+  quantity: number;
   price: number;
   brand: string;
   date: Date;
   expirationDate: Date;
 
-  constructor(fakeId: string,entryId: string, transactionId: string, ingredientId: string, quantity: string, price: number, brand: string, date: Date, expirationDate: Date) {
-    this.fakeId= fakeId;
+  constructor(id: string,entryId: string, transactionId: string, ingredientId: string, quantity: number, price: number, brand: string, date: Date, expirationDate: Date) {
+    this.id= id;
     this.entryId = entryId;
     this.transactionId = transactionId;
     this.ingredientId = ingredientId;

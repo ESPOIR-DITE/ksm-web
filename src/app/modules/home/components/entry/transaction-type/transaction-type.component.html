@@ -1,0 +1,68 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col">
+        Transaction Types
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary" type="button"data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="loading"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="large"
+                nbSpinnerMessage="">
+    <table class="table  text-white">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let transactionType of transactionTypes; let indexOfElement = index" (click)="editTransactionType(transactionType.id)">
+        <th scope="row"><a>{{indexOfElement+1}}</a></th>
+        <td><a>{{transactionType.name}}</a></td>
+        <td><a></a></td>
+      </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+  <nb-card-footer>
+  </nb-card-footer>
+</nb-card>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-black">New Transaction Type</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="transactionTypeForm">
+          <div class="mb-3 row">
+            <label for="name" class="col-sm-2 col-form-label text-black">Name</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="name" class="form-control" id="name">
+              <ng-container *ngIf="formFields['name'].invalid && formFields['name'].touched">
+                <p class="text-danger">Name is required!</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="description" class="col-sm-2 col-form-label text-black">Description</label>
+            <div class="col-sm-10">
+              <input type="text"formControlName="description" class="form-control" id="description">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" [disabled]="transactionTypeForm.invalid" (click)="onSubmit()" data-bs-dismiss="modal" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+

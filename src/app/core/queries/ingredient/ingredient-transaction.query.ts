@@ -6,6 +6,7 @@ import {
 } from "../../store/ingredient/ingredient-transaction.store";
 import {IngredientTransaction} from "../../models/ingredient/ingredient-transaction.model";
 import {IngredientTransactionService} from "../../services/ingredient/ingredient-transaction.service";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -20,47 +21,39 @@ export class IngredientTransactionQuery extends QueryEntity<IngredientTransactio
     private service: IngredientTransactionService) {
     super(store);
   }
-  createIngredientTransaction(entity: IngredientTransaction, isUpdate:boolean): IngredientTransaction | undefined{
+  createIngredientTransaction(entity: IngredientTransaction, isUpdate:boolean): Observable<IngredientTransaction | undefined>{
     if(isUpdate){
-      this.service.updateEntity(entity).subscribe(result =>{
-        return result.body;
-      })
+     return  this.service.updateEntity(entity)
     }else {
-      this.service.createEntity(entity).subscribe(result => {
-        return result.body;
-      })
+      return this.service.createEntity(entity)
     }
-    return undefined;
   }
-  getIngredientTransaction(id: string): IngredientTransaction | undefined{
-    if(!this.hasEntity(id)) {
-      this.service.readEntity(id).subscribe( result => {
-        return result.body;
-      });
-    }
-    this.selectEntity(id).subscribe(result =>{
-      return result;
-    });
-    return undefined;
+  getIngredientTransaction(id: string): Observable<IngredientTransaction | undefined>{
+    if(!this.hasEntity(id))
+      return this.service.readEntity(id)
+    return this.selectEntity(id)
   }
+  findAllByTransactionId(transactionId: string): Observable<IngredientTransaction[]>{
+    if(!this.hasEntity())
+      return this.service.findAllByTransactionId(transactionId);
+    return this.selectAll({
+      filterBy: [ingredientTransaction => ingredientTransaction.transactionId === transactionId]
+    })
+  }
+
   deleteEntity(entity: IngredientTransaction): boolean | undefined{
-    if(!this.hasEntity(entity.fakeId)){
+    if(!this.hasEntity(entity.id)){
       this.service.deleteEntity(entity).subscribe(result => {
         return result.body;
       })
     }
     return false;
   }
-  getEntities():IngredientTransaction[] | undefined {
+  getEntities(): Observable<IngredientTransaction[]> {
     if(!this.hasEntity()) {
-      this.service.readEntities().subscribe( result => {
-        return result.body;
-      });
+      return this.service.readEntities()
     }
-    this.selectAll().subscribe(result =>{
-      return result;
-    });
-    return undefined;
+    return this.selectAll()
   }
   findAllByIngredientId(ingredientId: string):IngredientTransaction[] | undefined {
     if(!this.hasEntity()) {
@@ -92,7 +85,6 @@ export class IngredientTransactionQuery extends QueryEntity<IngredientTransactio
     });
     return undefined;
   }
-
   findAllByDate(date: Date):IngredientTransaction[] | undefined {
     if(!this.hasEntity()) {
       this.service.findAllByDate(date).subscribe( result => {
@@ -108,7 +100,6 @@ export class IngredientTransactionQuery extends QueryEntity<IngredientTransactio
     });
     return undefined;
   }
-
   findAllByOrderByDate():IngredientTransaction[] | undefined {
     if(!this.hasEntity()) {
       this.service.findAllByOrderByDate().subscribe( result => {
@@ -119,6 +110,9 @@ export class IngredientTransactionQuery extends QueryEntity<IngredientTransactio
       return result;
     });
     return undefined;
+  }
+  deleteByTransactionAndIngredient(transactionId: string,ingredientId: string,fakeId: string):Observable<Boolean>{
+    return this.service.deleteByTransactionIdAndIngredientId(transactionId, ingredientId, fakeId)
   }
 }
 

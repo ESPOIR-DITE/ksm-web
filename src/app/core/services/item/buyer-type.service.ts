@@ -20,44 +20,44 @@ export class BuyerTypeService {
   constructor(private http: HttpClient,
               private store: BuyerTypeStore) {
   }
-  public createEntity(entity: BuyerType):Observable<ResponseEntity<BuyerType>>{
+  public createEntity(entity: BuyerType):Observable<BuyerType>{
     const url = this.base+'create';
-    return this.http.post<ResponseEntity<BuyerType>>(url,entity,this.options)
+    return this.http.post<BuyerType>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<BuyerType>>('create error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<BuyerType>('create error'))
       )
   }
-  public updateEntity(entity: BuyerType):Observable<ResponseEntity<BuyerType>>{
+  public updateEntity(entity: BuyerType):Observable<BuyerType>{
     const url = this.base+'update';
-    return this.http.post<ResponseEntity<BuyerType>>(url,entity,this.options)
+    return this.http.post<BuyerType>(url,entity,this.options)
       .pipe(
         tap(result => this.store.replace(entity.id,entity)),
-        catchError(ApiErrors.handleError<ResponseEntity<BuyerType>>('update error'))
+        catchError(ApiErrors.handleError<BuyerType>('update error'))
       )
   }
-  public readEntity(id: string):Observable<ResponseEntity<BuyerType>>{
+  public readEntity(id: string):Observable<BuyerType>{
     const url = this.base+'read?id='+id;
-    return this.http.get<ResponseEntity<BuyerType>>(url,this.options)
+    return this.http.get<BuyerType>(url,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<BuyerType>>('read error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<BuyerType>('read error'))
       )
   }
-  public deleteEntity(entity: BuyerType):Observable<ResponseEntity<BuyerType>>{
-    const url = this.base+'delete?id='+entity.id;
-    return this.http.get<ResponseEntity<BuyerType>>(url,this.options)
+  public deleteEntity(id: string):Observable<boolean>{
+    const url = this.base+'delete?id='+id;
+    return this.http.get<boolean>(url,this.options)
       .pipe(
-        tap(result => this.store.remove(entity.id)),
-        catchError(ApiErrors.handleError<ResponseEntity<BuyerType>>('delete error'))
+        tap(result => this.store.remove(id)),
+        catchError(ApiErrors.handleError<boolean>('delete error'))
       )
   }
-  public  readEntities():Observable<ResponseEntity<BuyerType[]>>{
+  public  readEntities():Observable<BuyerType[]>{
     const url = this.base+'reads';
-    return this.http.get<ResponseEntity<BuyerType[]>>(url,this.options)
+    return this.http.get<BuyerType[]>(url,this.options)
       .pipe(
-        tap(result => this.store.set(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<BuyerType[]>>('reads error'))
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<BuyerType[]>('reads error'))
       )
   }
 }

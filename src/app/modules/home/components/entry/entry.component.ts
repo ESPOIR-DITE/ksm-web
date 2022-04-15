@@ -3,6 +3,7 @@ import {Transaction} from "../../../../core/models/entry/transaction.model";
 import {IngredientTransaction} from "../../../../core/models/ingredient/ingredient-transaction.model";
 import {TransactionQuery} from "../../../../core/queries/entry/transaction.query";
 import {Router} from "@angular/router";
+import {EChartsOption} from "echarts";
 
 @Component({
   selector: 'app-entry',
@@ -11,19 +12,26 @@ import {Router} from "@angular/router";
 })
 export class EntryComponent implements OnInit {
   loading = true;
+
+
   transactions: Transaction[]|undefined;
   ingredientTransactions: IngredientTransaction[]|undefined;
+
+
+
   constructor(private transactionQuery: TransactionQuery,
               private route: Router,
               ) { }
 
   ngOnInit(): void {
+
     this.transactionQuery.getEntities().subscribe(result =>{
       if(result)
         this.transactions = result;
       this.loading = false;
     })
   }
+
   onCreate(){
     this.route.navigate(['/entry/create'])
   }

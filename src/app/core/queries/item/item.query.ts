@@ -27,7 +27,7 @@ export class ItemQuery extends QueryEntity<ItemState, Item> {
     if(isUpdate) return this.service.updateEntity(entity);
       return this.service.createEntity(entity)
   }
-  getBuyerType(id: string): Observable<Item | undefined>{
+  getItem(id: string): Observable<Item | undefined>{
     if(!this.hasEntity(id)) {
       return this.service.readEntity(id)
     }

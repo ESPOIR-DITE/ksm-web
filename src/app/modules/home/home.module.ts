@@ -26,26 +26,39 @@ import { ItemViewFormComponent } from './components/item/item-view-form/item-vie
 import { ItemCreateFormComponent } from './components/item/item-create-form/item-create-form.component';
 import { EntryCreateFormComponent } from './components/entry/entry-create-form/entry-create-form.component';
 import { EntryViewFormComponent } from './components/entry/entry-view-form/entry-view-form.component';
+import { TransactionTypeComponent } from './components/entry/transaction-type/transaction-type.component';
+import { StockComponent } from './components/stock/stock.component';
+import {NgxEchartsModule} from "ngx-echarts";
+import {AppModule} from "../../app.module";
+import {ChartsModule} from "../../shared/charts/charts.module";
+import { WeekSellComponent } from './components/sell/week-sell/week-sell.component';
+import { DaySellComponent } from './components/sell/day-sell/day-sell.component';
+import { PeriodComponent } from './components/period/period.component';
+import { CreateSellComponent } from './components/sell/create-sell/create-sell.component';
+import { MonthSellComponent } from './components/sell/month-sell/month-sell.component';
+import { BuyerTypeComponent } from './components/buyer-type/buyer-type.component';
 
 
 @NgModule({
   declarations: [
-  HomeViewComponent,HomeComponent, ItemComponent, IngredientComponent, EntryComponent, TransactionsComponent, SellComponent, QuantityTypeComponent, IngredientCreateFormComponent, IngredientViewFormComponent, ItemViewFormComponent, ItemCreateFormComponent, EntryCreateFormComponent, EntryViewFormComponent
+  HomeViewComponent,HomeComponent, ItemComponent, IngredientComponent, EntryComponent, TransactionsComponent, SellComponent, QuantityTypeComponent, IngredientCreateFormComponent, IngredientViewFormComponent, ItemViewFormComponent, ItemCreateFormComponent, EntryCreateFormComponent, EntryViewFormComponent, TransactionTypeComponent, StockComponent, WeekSellComponent, DaySellComponent, PeriodComponent, CreateSellComponent, MonthSellComponent, BuyerTypeComponent
    ],
-    imports: [
-        CommonModule,
-        NbLayoutModule,
-        CoreModule,
-        NbLayoutModule,
-        NbSidebarModule,
-        HomeRoutingModule,
-        NbMenuModule,
-        NbCardModule,
-        Ng2SmartTableModule,
-        ReactiveFormsModule,
-        NbToastrModule.forRoot(),
-        NbSpinnerModule
-    ],
+  imports: [
+    CommonModule,
+    NbLayoutModule,
+    CoreModule,
+    NbLayoutModule,
+    NbSidebarModule,
+    HomeRoutingModule,
+    NbMenuModule,
+    NbCardModule,
+    Ng2SmartTableModule,
+    ReactiveFormsModule,
+    NbToastrModule.forRoot(),
+    NbSpinnerModule,
+    NgxEchartsModule,
+    ChartsModule,
+  ],
   providers: [NbSidebarService,NbToastrService]
 })
 export class HomeModule { }

@@ -1,1 +1,179 @@
-<p>entry-view-form works!</p>
+<div class="row">
+  <div class="col">
+    <nb-card>
+  <nb-card-header>
+    View Item
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="transactionLoading"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="large"
+                nbSpinnerMessage="">
+    <form [formGroup]="transactionForm">
+      <input type="text" formControlName="id"  class="form-control" id="id" required hidden>
+      <div class="mb-3 row">
+        <label for="supplier" class="col-sm-2 col-form-label ">Supplier</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="supplier"  class="form-control" id="supplier">
+          <ng-container *ngIf="transactionFormFields['supplier'].invalid && transactionFormFields['supplier'].touched">
+            Supplier is required!
+          </ng-container>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="amount" class="col-sm-2 col-form-label ">Total Price cost</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="amount" class="form-control" id="amount">
+          <ng-container *ngIf="transactionFormFields['amount'].invalid && transactionFormFields['amount'].touched">
+            Amount is required!
+          </ng-container>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="date" class="col-sm-2 col-form-label ">Date</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="date" class="form-control" id="date">
+          <ng-container *ngIf="transactionFormFields['date'].invalid && transactionFormFields['date'].touched">
+            Amount is required!
+          </ng-container>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="transactionTypeId" class="col-sm-2 col-form-label ">Transaction type</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="transactionTypeId" class="form-control" id="transactionTypeId">
+          <ng-container *ngIf="transactionFormFields['transactionTypeId'].invalid && transactionFormFields['transactionTypeId'].touched">
+            Transaction TypeId is required!
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col">
+        <button type="button"  (click)="onBack()" class="btn btn-primary">Back
+        </button>
+      </div>
+
+      <div class="col">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="button"  (click)="onDelete()" class="btn btn-danger">Delete
+          </button>
+          <button type="button" [disabled]="transactionForm.pristine" (click)="onUpdate()"
+                  class="btn btn-warning">Update
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </nb-card-footer>
+</nb-card>
+  </div>
+  <div class="col">
+    <app-pie-chart [data]="data!" [title]="'Ingredient price'"></app-pie-chart>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <nb-card>
+      <nb-card-header>
+        Add Ingredient To The Stock Entry
+      </nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="ingredientTransactionForm">
+          <div class="mb-3 row">
+            <label for="ingredient" class="col-sm-2 col-form-label ">Stock</label>
+            <div class="col-sm-10">
+              <select class="form-select text-black" formControlName="ingredient" id="ingredient"
+                      aria-label="Default select example">
+                <option selected >Open this select menu</option>
+                <option *ngFor="let ingredient of ingredients" value="{{ingredient.id}}">{{ingredient.name}}</option>
+              </select>
+              <ng-container *ngIf="ingredientTransactionFormFields['ingredient'].invalid && ingredientTransactionFormFields['ingredient'].touched">
+                <p class="text-danger">Ingredient is required!</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="quantity" class="col-sm-2 col-form-label ">Quantity</label>
+            <div class="col-sm-10">
+              <input type="number" formControlName="quantity" class="form-control" id="quantity">
+              <ng-container *ngIf="ingredientTransactionFormFields['quantity'].invalid && ingredientTransactionFormFields['quantity'].touched">
+                <p class="text-danger">Quantity is required!</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="price" class="col-sm-2 col-form-label ">Unit Price</label>
+            <div class="col-sm-10">
+              <input type="number" formControlName="price" class="form-control" id="price">
+              <ng-container *ngIf="ingredientTransactionFormFields['price'].invalid && ingredientTransactionFormFields['price'].touched">
+                <p class="text-danger">Price is required!</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="brand" class="col-sm-2 col-form-label ">Ingredient Brand</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="brand" id="brand" class="form-control">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="expiringDate" class="col-sm-2 col-form-label ">Expiring Date</label>
+            <div class="col-sm-10">
+              <input type="date" formControlName="expiringDate" id="expiringDate" class="form-control">
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="button" [disabled]="ingredientTransactionForm?.pristine" (click)="onAdd()"
+                  class="btn btn-warning">Add
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+  <div class="col">
+    <nb-card>
+      <nb-card-header>
+        Ingredient List
+      </nb-card-header>
+      <nb-card-body [nbSpinner]="loading"
+                    nbSpinnerStatus="info"
+                    nbSpinnerSize="large"
+                    nbSpinnerMessage="">
+        <table class="table  text-white">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ingredient</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Cost</th>
+            <th scope="col">brand</th>
+            <th scope="col">Exp Date</th>
+            <th scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let ingredientTransaction of ingredientTransactions; let indexOfElement = index" >
+            <th scope="row"><a>{{indexOfElement+1}}</a></th>
+            <td>{{ingredientTransaction.ingredientId}}</td>
+            <td>{{ingredientTransaction.quantity}}</td>
+            <td>R {{ingredientTransaction.price| number}}</td>
+            <td >{{ingredientTransaction.brand}}</td>
+            <td >{{ingredientTransaction.expirationDate}}</td>
+            <td > <button type="button" (click)="onRemoveIngredientTransaction(ingredientTransaction.transactionId,ingredientTransaction.ingredientId,ingredientTransaction.id)"
+                          class="btn btn-warning">remove
+            </button></td>
+          </tr>
+          </tbody>
+        </table>
+      </nb-card-body>
+      <nb-card-footer>
+
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>

@@ -32,7 +32,7 @@ export class ItemIngredientService {
     const url = this.base+'update';
     return this.http.post<ItemIngredient>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.replace(entity.fakeId,entity)),
+        tap(result => this.store.replace(entity.id,entity)),
         catchError(ApiErrors.handleError<ItemIngredient>('update error'))
       )
   }
@@ -45,10 +45,10 @@ export class ItemIngredientService {
       )
   }
   public deleteEntity(entity: ItemIngredient):Observable<ResponseEntity<ItemIngredient>>{
-    const url = this.base+'delete?id='+entity.fakeId;
+    const url = this.base+'delete?id='+entity.id;
     return this.http.get<ResponseEntity<ItemIngredient>>(url,this.options)
       .pipe(
-        tap(result => this.store.remove(entity.fakeId)),
+        tap(result => this.store.remove(entity.id)),
         catchError(ApiErrors.handleError<ResponseEntity<ItemIngredient>>('delete error'))
       )
   }

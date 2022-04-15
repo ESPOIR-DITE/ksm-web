@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 
 export const STORE_TTL = 3600000;
 export const BASE_URL = 'https://arcane-crag-09873.herokuapp.com/ksm/';
+//export const BASE_URL = 'http://localhost:8080/ksm/';
 
 export class Util {
   static headers(): HttpHeaders {
@@ -17,7 +18,15 @@ export class Util {
     return headers;
   }
 }
+export class ChartPieData {
+  value: number | undefined;
+  name: string | undefined;
 
+  constructor(value: number | undefined, name: string | undefined) {
+    this.value = value;
+    this.name = name;
+  }
+}
 export interface ResponseEntity<T> {
   headers: { [headerName: string]: string },
   body: T,

@@ -1,9 +1,9 @@
-import {combineQueries, QueryEntity} from "@datorama/akita";
+import {combineQueries, QueryEntity, toBoolean} from "@datorama/akita";
 import {TransactionState, TransactionStore} from "../../store/entry/transaction.store";
 import {Transaction} from "../../models/entry/transaction.model";
 import {TransactionService} from "../../services/entry/transaction.service";
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
+import {BehaviorSubject, filter, map, merge, Observable} from "rxjs";
 import {IngredientState, IngredientStore} from "../../store/ingredient/ingredient.store";
 import {Ingredient} from "../../models/ingredient/ingredient.model";
 import {IngredientService} from "../../services/ingredient/ingredient.service";
@@ -20,6 +20,7 @@ import {SellPrice} from "../../models/sell/sell-price.model";
 import {SellPriceState, SellPriceStore} from "../../store/sell/sell-price.store";
 import {SellPriceService} from "../../services/sell/sellPrice.service";
 import {IngredientTransaction} from "../../models/ingredient/ingredient-transaction.model";
+import {query} from "@angular/animations";
 
 @Injectable({
   providedIn: 'root',
@@ -30,19 +31,13 @@ export class SellPriceQuery extends QueryEntity<SellPriceState, SellPrice> {
     private service: SellPriceService) {
     super(store);
   }
-  createBuyerType(entity: SellPrice, isUpdate:boolean): SellPrice | undefined{
+  createSellPrice(entity: SellPrice, isUpdate:boolean): Observable<SellPrice>{
     if(isUpdate){
-      this.service.updateEntity(entity).subscribe(result =>{
-        return result.body;
-      })
-    }else {
-      this.service.createEntity(entity).subscribe(result => {
-        return result.body;
-      })
-    }
-    return undefined;
+      return this.service.updateEntity(entity)
+    }else
+      return this.service.createEntity(entity)
   }
-  getBuyerType(id: string): SellPrice | undefined{
+  getSellPrice(id: string): SellPrice | undefined{
     if(!this.hasEntity(id)) {
       this.service.readEntity(id).subscribe( result => {
         return result.body;
@@ -126,23 +121,28 @@ export class SellPriceQuery extends QueryEntity<SellPriceState, SellPrice> {
     });
     return undefined;
   }
-  findAllByItemIdAndBuyerTYpeId(itemId: string, buyerTypeId: string):IngredientTransaction[] | undefined {
-    if(!this.hasEntity()) {
-      this.service.findAllByItemIdAndBuyerTYpeId(itemId, buyerTypeId).subscribe( result => {
-        return result.body;
-      });
-    }
-    const filter1 = this.selectAll({
-      filterBy: [ entity => entity.itemId === itemId],
+  getActiveSellPrice(itemId: string, buyerTypeId: string):Observable<SellPrice|undefined>{
+     return this.service.getActiveSellPrice(itemId, buyerTypeId);
+     const result = this.getAll({
+       filterBy: [ entity => entity.itemId === itemId,
+                    entity => entity.buyerTypeId ===buyerTypeId ]
+     })
+    return new BehaviorSubject(result[0])
+  }
+  findAllByItemIdAndBuyerTYpeId(itemId: string, buyerTypeId: string):Observable<SellPrice[]> {
+    if(!this.hasEntity()) return this.service.findAllByItemIdAndBuyerTYpeId(itemId, buyerTypeId);
+   return  this.selectAll({
+      filterBy: [ entity => entity.itemId === itemId,
+        entity => entity.buyerTypeId === buyerTypeId
+      ],
     })
-    const filter2 = this.selectAll({
-      filterBy: [entity => entity.buyerTypeId === buyerTypeId],
+  }
+  findAllByItemId(itemId: string):Observable<SellPrice[]> {
+    if(!this.hasEntity()) return this.service.getAllByItemId(itemId);
+    return  this.selectAll({
+      filterBy: [ entity => entity.itemId === itemId,
+      ],
     })
-
-    combineQueries([filter1,filter2]).subscribe(result =>{
-      return result;
-    });
-    return undefined;
   }
 }
 

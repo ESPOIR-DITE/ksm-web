@@ -14,36 +14,20 @@ export class TransactionQuery extends QueryEntity<TransactionState, Transaction>
     private service: TransactionService) {
     super(store);
   }
-  createTransaction(entity: Transaction, isUpdate:boolean): Transaction | undefined{
+  createTransaction(entity: Transaction, isUpdate:boolean): Observable<Transaction | undefined>{
     if(isUpdate){
-      this.service.updateEntity(entity).subscribe(result =>{
-        return result.body;
-      })
-    }else {
-      this.service.createEntity(entity).subscribe(result => {
-        return result.body;
-      })
-    }
-    return undefined;
+      return this.service.updateEntity(entity)
+    }else
+      return this.service.createEntity(entity)
   }
-  getTransaction(id: string): Transaction | undefined{
-    if(!this.hasEntity(id)) {
-      this.service.readEntity(id).subscribe( result => {
-        return result.body;
-      });
-    }
-    this.selectEntity(id).subscribe(result =>{
-      return result;
-    });
-    return undefined;
+  getTransaction(id: string): Observable<Transaction | undefined>{
+    if(!this.hasEntity(id))
+      return  this.service.readEntity(id);
+    return this.selectEntity(id);
   }
-  deleteEntity(entity: Transaction): boolean | undefined{
-    if(!this.hasEntity(entity.id)){
-      this.service.deleteEntity(entity).subscribe(result => {
-        return result.body;
-      })
-    }
-    return false;
+  deleteEntity(entity: Transaction): Observable<Boolean>{
+      return this.service.deleteEntity(entity);
+
   }
   getEntities():Observable<Transaction[]>{
     if(!this.hasEntity())

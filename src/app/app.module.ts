@@ -6,17 +6,15 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NbThemeModule, NbLayoutModule, NbMenuModule, NbSidebarModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import {HomeViewComponent} from "./modules/home/pages/home-view/home-view.component";
-import {ItemComponent} from "./modules/home/components/item/item.component";
-import {IngredientComponent} from "./modules/home/components/ingredient/ingredient.component";
-import {EntryComponent} from "./modules/home/components/entry/entry.component";
-import {TransactionsComponent} from "./modules/home/components/transactions/transactions.component";
 import {HomeModule} from "./modules/home/home.module";
 import { HttpClientModule } from '@angular/common/http';
+import { ChartModule } from 'angular-highcharts';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { BarChartComponent } from './shared/charts/bar-chart/bar-chart.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+    declarations: [AppComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -25,11 +23,17 @@ import { HttpClientModule } from '@angular/common/http';
         NbLayoutModule,
         HomeModule,
         NbEvaIconsModule,
-      HttpClientModule,
-      NbSidebarModule.forRoot(),
-      NbMenuModule.forRoot(),
+        HttpClientModule,
+        NbSidebarModule.forRoot(),
+        NbMenuModule.forRoot(),
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts')
+        }),
+        ChartModule
     ],
-  providers: [],
-  bootstrap: [AppComponent]
+    providers: [],
+    exports: [
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

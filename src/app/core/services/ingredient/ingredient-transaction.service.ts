@@ -20,35 +20,35 @@ export class IngredientTransactionService {
   constructor(private http: HttpClient,
               private store: IngredientTransactionStore) {
   }
-  public createEntity(entity: IngredientTransaction):Observable<ResponseEntity<IngredientTransaction>>{
+  public createEntity(entity: IngredientTransaction):Observable<IngredientTransaction>{
     const url = this.base+'create';
-    return this.http.post<ResponseEntity<IngredientTransaction>>(url,entity,this.options)
+    return this.http.post<IngredientTransaction>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<IngredientTransaction>>('create error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<IngredientTransaction>('create error'))
       )
   }
-  public updateEntity(entity: IngredientTransaction):Observable<ResponseEntity<IngredientTransaction>>{
+  public updateEntity(entity: IngredientTransaction):Observable<IngredientTransaction>{
     const url = this.base+'update';
-    return this.http.post<ResponseEntity<IngredientTransaction>>(url,entity,this.options)
+    return this.http.post<IngredientTransaction>(url,entity,this.options)
       .pipe(
-        tap(result => this.store.replace(entity.fakeId,entity)),
-        catchError(ApiErrors.handleError<ResponseEntity<IngredientTransaction>>('update error'))
+        tap(result => this.store.replace(entity.id,entity)),
+        catchError(ApiErrors.handleError<IngredientTransaction>('update error'))
       )
   }
-  public readEntity(id: string):Observable<ResponseEntity<IngredientTransaction>>{
+  public readEntity(id: string):Observable<IngredientTransaction>{
     const url = this.base+'read?id='+id;
-    return this.http.get<ResponseEntity<IngredientTransaction>>(url,this.options)
+    return this.http.get<IngredientTransaction>(url,this.options)
       .pipe(
-        tap(result => this.store.add(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<IngredientTransaction>>('read error'))
+        tap(result => this.store.add(result)),
+        catchError(ApiErrors.handleError<IngredientTransaction>('read error'))
       )
   }
   public deleteEntity(entity: IngredientTransaction):Observable<ResponseEntity<IngredientTransaction>>{
-    const url = this.base+'delete?id='+entity.fakeId;
+    const url = this.base+'delete?id='+entity.id;
     return this.http.get<ResponseEntity<IngredientTransaction>>(url,this.options)
       .pipe(
-        tap(result => this.store.remove(entity.fakeId)),
+        tap(result => this.store.remove(entity.id)),
         catchError(ApiErrors.handleError<ResponseEntity<IngredientTransaction>>('delete error'))
       )
   }
@@ -68,12 +68,12 @@ export class IngredientTransactionService {
         catchError(ApiErrors.handleError<ResponseEntity<IngredientTransaction[]>>('reads error'))
       )
   }
-  public readEntities():Observable<ResponseEntity<IngredientTransaction[]>>{
+  public readEntities():Observable<IngredientTransaction[]>{
     const url = this.base+'reads';
-    return this.http.get<ResponseEntity<IngredientTransaction[]>>(url,this.options)
+    return this.http.get<IngredientTransaction[]>(url,this.options)
       .pipe(
-        tap(result => this.store.set(result.body)),
-        catchError(ApiErrors.handleError<ResponseEntity<IngredientTransaction[]>>('reads error'))
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<IngredientTransaction[]>('reads error'))
       )
   }
 public findAllByDate(date: Date):Observable<ResponseEntity<IngredientTransaction[]>>{
@@ -90,6 +90,22 @@ public  findAllByOrderByDate():Observable<ResponseEntity<IngredientTransaction[]
       .pipe(
         tap(result => this.store.set(result.body)),
         catchError(ApiErrors.handleError<ResponseEntity<IngredientTransaction[]>>('reads error'))
+      )
+  }
+  public findAllByTransactionId(transactionId: string):Observable<IngredientTransaction[]>{
+    const url = this.base+'find-all-by-transaction-is?transactionId='+transactionId;
+    return this.http.get<IngredientTransaction[]>(url,this.options)
+      .pipe(
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<IngredientTransaction[]>('reads error'))
+      )
+  }
+public deleteByTransactionIdAndIngredientId(transactionId: string,ingredientId: string,fakeId: string):Observable<boolean>{
+    const url = this.base+'delete-by-transactionId-ingredientId?transactionId='+transactionId+'&'+ingredientId;
+     return this.http.get<boolean>(url,this.options)
+      .pipe(
+        tap(result => this.store.remove(fakeId)),
+        catchError(ApiErrors.handleError<boolean>('reads error'))
       )
   }
 

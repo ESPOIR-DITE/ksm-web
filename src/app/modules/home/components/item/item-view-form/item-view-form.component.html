@@ -1,56 +1,128 @@
 <nb-card>
-  <nb-card-header>
-    View Item
-  </nb-card-header>
-  <nb-card-body [nbSpinner]="itemLoading"
-                nbSpinnerStatus="info"
-                nbSpinnerSize="large"
-                nbSpinnerMessage="">
-    <form [formGroup]="itemForm">
-      <input type="text" formControlName="id"  class="form-control" id="id" required hidden>
-      <div class="mb-3 row">
-        <label for="name" class="col-sm-2 col-form-label ">Name</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="name"  class="form-control" id="name">
-                      <ng-container *ngIf="itemFormFields['name'].invalid && itemFormFields['name'].touched">
-                        Name is required!
-                      </ng-container>
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label for="costPrice" class="col-sm-2 col-form-label ">Price cost</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="costPrice" value="{{costPrice}}" class="form-control" id="costPrice">
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label for="description" class="col-sm-2 col-form-label ">Description</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="description" class="form-control" id="description">
-        </div>
-      </div>
-    </form>
-  </nb-card-body>
-  <nb-card-footer>
-    <div class="row">
-      <div class="col">
-        <button type="button"  (click)="onBack()" class="btn btn-primary">Back
-        </button>
-      </div>
-
-      <div class="col">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button type="button"  (click)="onDelete()" class="btn btn-danger">Delete
-          </button>
-          <button type="button" [disabled]="itemForm?.pristine" (click)="onUpdate()"
-                  class="btn btn-warning">Update
-          </button>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col">
+      <app-bar-chart></app-bar-chart>
     </div>
-
-  </nb-card-footer>
+    <div class="col">
+      <app-pie-chart [data]="data!" [title]="'Ingredient Quantity'"></app-pie-chart>
+    </div>
+  </div>
 </nb-card>
+<div class="row">
+  <div class="col">
+    <nb-card>
+      <nb-card-header>
+        View Item
+      </nb-card-header>
+      <nb-card-body [nbSpinner]="itemLoading"
+                    nbSpinnerStatus="info"
+                    nbSpinnerSize="large"
+                    nbSpinnerMessage="">
+        <form [formGroup]="itemForm">
+          <input type="text" formControlName="id"  class="form-control" id="id" required hidden>
+          <div class="mb-3 row">
+            <label for="name" class="col-sm-2 col-form-label ">Name</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="name"  class="form-control" id="name">
+              <ng-container *ngIf="itemFormFields['name'].invalid && itemFormFields['name'].touched">
+                Name is required!
+              </ng-container>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="sellPrice" class="col-sm-2 col-form-label">Sell Price</label>
+            <div class="col-sm-10" >
+              <input type="text" formControlName="costPrice" class="form-control" id="sellPrice" name="sellPrice">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="costPrice" class="col-sm-2 col-form-label">Interest Per Item</label>
+            <div class="col-sm-10">
+              <input type="text" value="{{item!.costPrice-costPrice}}"  class="form-control" id="costPrice">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="description" class="form-control" id="description">
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="row">
+          <div class="col">
+            <button type="button"  (click)="onBack()" class="btn btn-primary">Back
+            </button>
+          </div>
+
+          <div class="col">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button type="button"  (click)="onDelete()" class="btn btn-danger">Delete
+              </button>
+              <button type="button" [disabled]="itemForm?.pristine" (click)="onUpdate()"
+                      class="btn btn-warning">Update
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </nb-card-footer>
+    </nb-card>
+  </div>
+  <div class="col">
+    <nb-card>
+      <nb-card-header>
+        <div class="row">
+          <div class="col">
+            Sell Price
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-primary" type="button"data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
+          </div>
+        </div>
+      </nb-card-header>
+      <nb-card-body [nbSpinner]="buyerTypeLoading"
+                    nbSpinnerStatus="info"
+                    nbSpinnerSize="large"
+                    nbSpinnerMessage="">
+        <table class="table  text-white">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Buyer Type</th>
+            <th scope="col">price</th>
+            <th scope="col">Date</th>
+            <th scope="col">Stat</th>
+            <th scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let sellPrice of sellPrices; let indexOfElement = index" >
+            <th scope="row"><a>{{indexOfElement+1}}</a></th>
+            <td >{{sellPrice.buyerTypeId}}</td>
+            <td>{{sellPrice.price}}</td>
+            <td>R {{sellPrice.date| date :'shortDate'}}</td>
+            <td >{{sellPrice.isActive}}</td>
+            <td > <button type="button" (click)="onRemoveItemIngredient(sellPrice.id)"
+                          class="btn btn-warning">remove
+            </button></td>
+          </tr>
+          </tbody>
+        </table>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="col">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <label>Item Average Price : </label>
+            <a type="button"class="btn btn-info">{{averagePrice|number}}</a>
+          </div>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
+
 <div class="row">
   <div class="col">
     <nb-card>
@@ -118,11 +190,11 @@
           <tbody>
           <tr *ngFor="let itemIngredient of itemIngredientData; let indexOfElement = index" >
             <th scope="row"><a>{{indexOfElement+1}}</a></th>
-            <td>{{itemIngredient.ingredientId}}</td>
+            <td (click)="viewIngredient(itemIngredient.id)">{{itemIngredient.ingredientId}}</td>
             <td>{{itemIngredient.quantity}}</td>
             <td>R {{itemIngredient.entryId}}</td>
             <td >{{itemIngredient.description}}</td>
-            <td > <button type="button" (click)="onRemoveItemIngredient(itemIngredient.fakeId)"
+            <td > <button type="button" (click)="onRemoveItemIngredient(itemIngredient.id)"
                           class="btn btn-warning">remove
             </button></td>
           </tr>
@@ -130,9 +202,65 @@
         </table>
       </nb-card-body>
       <nb-card-footer>
-
+        <div class="col">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <label>Total Cost of the Item: </label>
+            <a type="button"class="btn btn-info">{{costPrice}}</a>
+          </div>
+        </div>
       </nb-card-footer>
     </nb-card>
   </div>
 </div>
 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-black">New Ingredient</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="itemSellPriceForm">
+          <input type="text" formControlName="item" value="{{this.item!.id}}" class="form-control" hidden>
+          <div class="mb-3 row">
+            <label for="buyerTypeId" class="col-sm-2 col-form-label text-black">buyer type</label>
+            <div class="col-sm-10">
+            <select class="form-select text-black" formControlName="buyerTypeId" id="buyerTypeId"
+                    aria-label="Default select example">
+              <option selected disabled>Open this select Buyer Type</option>
+              <option *ngFor="let buyerType of buyerTypes" value="{{buyerType.id}}">{{buyerType.name}}</option>
+            </select>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="price"  class="col-sm-2 col-form-label text-black">price</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="price" class="form-control" id="price">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="date" class="col-sm-2 col-form-label text-black">Date</label>
+            <div class="col-sm-10">
+              <input type="date"formControlName="date" class="form-control" id="date">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="isActive" class="col-sm-2 col-form-label text-black">Active</label>
+            <div class="col-sm-10">
+              <select class="form-select text-black" formControlName="isActive" id="isActive" aria-label="Default select example">
+                <option selected disabled>Select One</option>
+                <option value="true">active</option>
+                <option  value="false">deactivate</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" [disabled]="itemSellPriceForm?.invalid" (click)="onSubmitSellPrice()" data-bs-dismiss="modal" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

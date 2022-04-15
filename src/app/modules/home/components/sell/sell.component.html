@@ -1,1 +1,46 @@
-<p>sell works!</p>
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col">
+        Sells
+      </div>
+      <div class="col">
+        <label>Period</label>
+        <select #period (change)="selectedPeriod(period.value)" class="form-select" aria-label="Default select example" id="periodSelection">
+          <option selected >All sells</option>
+          <option *ngFor="let period of periods" value="{{period.id}}" title="{{period.description}}">{{period.period}}</option>
+        </select>
+      </div>
+      <div class="col">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button class="btn btn-primary" type="button" (click)="onCreate()">Create</button>
+        </div>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="loading"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="large"
+                nbSpinnerMessage="">
+    <table class="table  text-white">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Period</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let task of tasks; let indexOfElement = index" (click)="readWeekSell(task.id,task.description)">
+        <th scope="row"><a>{{indexOfElement+1}}</a></th>
+        <td><a #periodName >{{task.period}}</a></td>
+        <td><a>{{task.date|date: 'shortTime'}}</a></td>
+        <td ><a>{{task.time|date:'fullDate'}}</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+  <nb-card-footer>
+  </nb-card-footer>
+</nb-card>
