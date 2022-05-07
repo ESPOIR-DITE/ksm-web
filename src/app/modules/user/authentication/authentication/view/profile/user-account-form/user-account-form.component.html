@@ -1,0 +1,50 @@
+<form [formGroup]="userAccountForm" class="example-items-col text-center">
+  <input type="email"  formControlName="email" nbInput fullWidth status="primary" placeholder="email"hidden>
+  <input type="email"  formControlName="id" nbInput fullWidth status="primary" placeholder="id"hidden>
+  <input type="email"  formControlName="date" nbInput fullWidth status="primary" placeholder="date"hidden>
+  <input type="email"  formControlName="password" nbInput fullWidth status="primary" placeholder="password"hidden>
+  <input type="email"  formControlName="stat" nbInput fullWidth status="primary" placeholder="stat"hidden>
+  <div class="mb-3 row">
+    <label for="roleId" class="col-sm-5 col-form-label ">Role</label>
+    <div class="col-sm-7">
+      <select  class="form-select text-black" formControlName="roleId" id="roleId"
+              aria-label="Default select example" >
+<!--        <option *ngIf="role" selected >{{role}}</option>-->
+        <option *ngFor="let role of roles" value="{{role.id}}" >{{role.role}}</option>
+      </select>
+      <ng-container *ngIf="formFields['roleId'].invalid && formFields['roleId'].touched">
+        <p class="text-danger">Role is required!</p>
+      </ng-container>
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label for="roleId" class="col-sm-5 col-form-label ">Organisation</label>
+    <div class="col-sm-7">
+      <select  class="form-select text-black" formControlName="organisationId" id="organisation"
+              aria-label="Default select example" >
+        <option *ngIf="organisation; else notOrganisationSelected" selected >{{organisation}}</option>
+        <ng-template #notOrganisationSelected>
+          <option selected disabled>Open this select menu</option>
+        </ng-template>
+        <option *ngFor="let organisation of organisations" value="{{organisation.id}}">{{organisation.name}}</option>
+      </select>
+      <ng-container *ngIf="formFields['organisationId'].invalid && formFields['organisationId'].touched">
+        <p class="text-danger">Organisation is required!</p>
+      </ng-container>
+    </div>
+  </div>
+  <div class="mb-3 row text-center">
+    <div class="col-sm-12">
+      <textarea type="text" id="description" formControlName="description" nbInput fullWidth status="primary" ></textarea>
+      <ng-container *ngIf="formFields['description'].invalid && formFields['description'].touched">
+        <p class="text-danger">Description is required!</p>
+      </ng-container>
+    </div>
+  </div>
+</form>
+<div class="mb-3 row text-center">
+  <div class="col-sm-10">
+    <button type="button" [nbSpinner]="userAccountSpinner" nbButton fullWidth status="primary" [disabled]="userAccountForm.invalid" (click)="onUpdate()">Submit
+    </button>
+  </div>
+</div>

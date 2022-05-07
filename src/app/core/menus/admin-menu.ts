@@ -90,15 +90,22 @@ const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Profile',
-    icon: 'person-outline',
-    link: '/auth/profile'
-  },
-  {
-    title: 'Logout',
-    icon: 'log-out-outline',
-    link: '/auth/logout'
-  },
+    title: 'User',
+    icon: 'expand-outline',
+    home: true,
+    children: [
+      {
+        title: 'user',
+        icon: 'layers-outline',
+        link: '/user',
+      },
+      {
+        title: 'shop',
+        icon: 'layers-outline',
+        link: '/shop',
+      },
 
+    ],
+  },
 ]
-export const MAIN_MENU = MENU_ITEMS;
+export const ADMIN_MENU = MENU_ITEMS;

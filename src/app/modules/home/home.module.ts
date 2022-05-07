@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import {HomeViewComponent} from "./pages/home-view/home-view.component";
 import {
-    NbSidebarModule,
-    NbLayoutModule,
-    NbSidebarService,
-    NbMenuModule,
-    NbCardModule,
-    NbToastrService, NbToastrModule, NbSpinnerModule
+  NbSidebarModule,
+  NbLayoutModule,
+  NbSidebarService,
+  NbMenuModule,
+  NbCardModule,
+  NbToastrService, NbToastrModule, NbSpinnerModule, NbUserModule, NbPopoverModule
 } from "@nebular/theme";
 import { ItemComponent } from './components/item/item.component';
 import { IngredientComponent } from './components/ingredient/ingredient.component';
@@ -37,6 +37,7 @@ import { PeriodComponent } from './components/period/period.component';
 import { CreateSellComponent } from './components/sell/create-sell/create-sell.component';
 import { MonthSellComponent } from './components/sell/month-sell/month-sell.component';
 import { BuyerTypeComponent } from './components/buyer-type/buyer-type.component';
+import {NbAuthModule, NbPasswordAuthStrategy} from "@nebular/auth";
 
 
 @NgModule({
@@ -58,6 +59,16 @@ import { BuyerTypeComponent } from './components/buyer-type/buyer-type.component
     NbSpinnerModule,
     NgxEchartsModule,
     ChartsModule,
+    NbAuthModule.forRoot({
+      strategies: [
+        NbPasswordAuthStrategy.setup({
+          name: 'email',
+        }),
+      ],
+      forms: {},
+    }),
+    NbUserModule,
+    NbPopoverModule,
   ],
   providers: [NbSidebarService,NbToastrService]
 })

@@ -89,16 +89,5 @@ const MENU_ITEMS: NbMenuItem[] = [
 
     ],
   },
-  {
-    title: 'Profile',
-    icon: 'person-outline',
-    link: '/auth/profile'
-  },
-  {
-    title: 'Logout',
-    icon: 'log-out-outline',
-    link: '/auth/logout'
-  },
-
 ]
-export const MAIN_MENU = MENU_ITEMS;
+export const TECH_ADMIN_MENU = MENU_ITEMS;

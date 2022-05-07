@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MAIN_MENU} from "./core/menus/main-menu";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,11 @@ export class AppComponent implements OnInit {
   title = 'ksm-web';
   menu= MAIN_MENU ;
 
-  constructor() {
+  constructor(private route: Router) {
   }
 
   ngOnInit(): void {
+    console.log('we are in app.component')
+    //this.route.navigate(['/auth'])
   }
 }
