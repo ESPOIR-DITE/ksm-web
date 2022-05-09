@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {OrganisationQuery} from "../../../../../../../core/queries/organisation/organisation.query";
 import {UserAccountQuery} from "../../../../../../../core/queries/user/user-account-query";
 import {Router} from "@angular/router";
-import {NbToastrService} from "@nebular/theme";
+import {NbToastrService, NbWindowRef} from "@nebular/theme";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Organisation} from "../../../../../../../core/models/organisation-model";
 import {Role} from "../../../../../../../core/models/user/role-model";
@@ -33,7 +33,7 @@ export class UserAccountFormComponent implements OnInit {
     description: new FormControl('',Validators.required),
   })
 
-  constructor(private roleQuery: RoleQuery, private tokenService: TokenService, private organisationQuery: OrganisationQuery, private userAccountQuery: UserAccountQuery,private route: Router,private toasterService: NbToastrService) { }
+  constructor(protected windowRef: NbWindowRef,private roleQuery: RoleQuery, private tokenService: TokenService, private organisationQuery: OrganisationQuery, private userAccountQuery: UserAccountQuery,private route: Router,private toasterService: NbToastrService) { }
 
   ngOnInit(): void {
     const email = this.tokenService.getEmailFromSession()
@@ -70,6 +70,7 @@ export class UserAccountFormComponent implements OnInit {
   }
   getRoles(){
     this.roleQuery.getEntities().subscribe(roles =>{
+      console.log(roles)
       if(roles) this.roles = roles
     })
   }
@@ -88,6 +89,7 @@ export class UserAccountFormComponent implements OnInit {
         if(result){
           this.showToast(STATUS.SUCCESS,'Success','You have updated your profile')
           this.userAccountSpinner = false;
+          this.windowRef.close()
         }else this.showToast(STATUS.DANGER,'Fail','Try again later!')
       })
     }

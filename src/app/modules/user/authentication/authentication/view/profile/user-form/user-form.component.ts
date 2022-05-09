@@ -49,7 +49,10 @@ export class UserFormComponent implements OnInit {
         if(result) {
           this.showToast(STATUS.SUCCESS,'Success','You have updated your profile')
           this.userSpinner = false
-        } else this.showToast(STATUS.DANGER,'Fail','Try again later!')
+        } else {
+          this.showToast(STATUS.DANGER,'Fail','Try again later!')
+          this.userSpinner = false
+        }
       })
     }
   }

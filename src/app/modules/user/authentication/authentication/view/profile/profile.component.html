@@ -1,22 +1,39 @@
 
-
+<h3 class="text-center"><strong>Profile</strong></h3>
     <nb-tabset class="pt-1">
       <nb-tab tabIcon="person-outline">
+        <p><strong>Identity</strong></p>
         <p>Name:  <strong>{{user?.firstName}}</strong>.</p>
         <p>Lastname:  <strong>{{user?.lastName}}</strong>.</p>
         <p>Middle Name: <strong>{{user?.middleName}}</strong>.</p>
         <button (click)="openWindowUser()" nbButton>Update</button>
       </nb-tab>
       <nb-tab [tabIcon]="bellIconConfig">
+        <p>Role : <strong>{{userRole}}</strong>.</p>
         <p>State: <strong>{{userAccount?.state}}</strong>.</p>
-        <p>Date: <strong>{{userAccount?.date|date}}</strong>.</p>
+        <p>Date : <strong>{{userAccount?.date|date}}</strong>.</p>
         <button (click)="openWindowUserAccount()" nbButton>Update</button>
       </nb-tab>
       <nb-tab tabIcon="email-outline">
-        <p>List of <strong>transactions</strong>.</p>
-        <p>Organisation: <strong>{{userOrganisation?.name}}</strong>.</p>
-        <button (click)="openWindowUser()" nbButton>Update</button>
+        <p><strong>User Organisation</strong></p>
+        <p *ngIf="userOrganisation; else elseuserOrganisation">Organisation: <strong>{{userOrganisation?.name}}</strong>.</p>
+        <ng-template #elseuserOrganisation>
+          <button (click)="openWindowUserOrganisation()" nbButton>Add</button>
+        </ng-template>
       </nb-tab>
+
+      <nb-tab tabIcon="email-outline" >
+        <p><strong>Your Organisation(s)</strong></p>
+        <div *ngIf="userOrganisation; else elseOrganisation">
+          <p>Organisation: <strong>{{userOrganisation.name}}</strong>.</p>
+          <button (click)="openWindowNewOrganisation()" nbButton>Add Organisation</button>
+        </div>
+        <ng-template #elseOrganisation>
+          <button (click)="openWindowNewOrganisation()" nbButton>Create Organisation</button>
+        </ng-template>
+      </nb-tab>
+
+
     </nb-tabset>
 
 

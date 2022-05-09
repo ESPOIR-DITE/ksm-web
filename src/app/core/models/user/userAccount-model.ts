@@ -18,4 +18,7 @@ export class UserAccount{
     this.state = state;
     this.description = description;
   }
+  public setOrganisation(organisation: string){
+    this.organizationId = organisation;
+  }
 }

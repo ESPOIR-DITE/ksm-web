@@ -25,14 +25,14 @@ import {OrganisationQuery} from "../../core/queries/organisation/organisation.qu
     <nb-layout>
       <nb-layout-header fixed>
           <div class="col">
-            Ingredient
+            <h2 class="text-success">{{organisation}}</h2>
           </div>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 <!--            <img class="rounded-circle" width="10%" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(30).jpg"-->
 <!--                 data-holder-rendered="true">-->
             <nb-user  size="large"
                      name="{{userName}}"
-                     title="Engineer"
+                     title="{{role}}"
                      badgeText="99+"
                      badgeStatus="success"
                      badgePosition="bottom right">
@@ -59,6 +59,8 @@ import {OrganisationQuery} from "../../core/queries/organisation/organisation.qu
 export class HomeComponent implements OnInit {
   menu= MAIN_MENU ;
   userName = 'John Doe';
+  role = ''
+  organisation = ''
   constructor(private tokeService: TokenService,
   private userQuery: UserQuery, private userAccountQuery: UserAccountQuery, private organisationQuery: OrganisationQuery,
   private roleQuery: RoleQuery, private token: TokenDecoder) {
@@ -68,6 +70,7 @@ export class HomeComponent implements OnInit {
     if (this.tokeService.getTokenFromSession())
     console.log(this.token.getUserRole(this.tokeService.getTokenFromSession()!));
     this.getUser();
+    this.getOrganisationAndRole()
   }
   getUser(){
     const email = this.tokeService.getEmailFromSession()
@@ -83,10 +86,10 @@ export class HomeComponent implements OnInit {
       this.userAccountQuery.getUsersWithEmail(email).subscribe( userAccount => {
       if(userAccount){
         this.roleQuery.getRole(userAccount.roleId).subscribe(role => {
-
+          if(role) this.role = role.role
         })
         this.organisationQuery.getOrganisation(userAccount.organizationId).subscribe( organisation =>{
-
+          if(organisation) this.organisation = organisation.name;
         })
       }
       })

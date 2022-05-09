@@ -19,7 +19,7 @@ export class HomeViewComponent implements OnInit {
               private route: Router) {
   }
   ngOnInit(): void {
-    //this.isLogin()
+
   }
   isLogin(){
     if(this.userTokenQuery.isLogin()&&this.tokenService.getTokenFromSession()){

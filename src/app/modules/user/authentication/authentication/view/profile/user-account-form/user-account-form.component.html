@@ -9,7 +9,10 @@
     <div class="col-sm-7">
       <select  class="form-select text-black" formControlName="roleId" id="roleId"
               aria-label="Default select example" >
-<!--        <option *ngIf="role" selected >{{role}}</option>-->
+        <option *ngIf="role; else elseRole" selected disabled>{{role}}</option>
+        <ng-template #elseRole>
+          <option selected disabled>Open this select menu</option>
+        </ng-template>
         <option *ngFor="let role of roles" value="{{role.id}}" >{{role.role}}</option>
       </select>
       <ng-container *ngIf="formFields['roleId'].invalid && formFields['roleId'].touched">

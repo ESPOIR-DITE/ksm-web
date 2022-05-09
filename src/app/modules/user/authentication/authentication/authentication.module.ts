@@ -19,6 +19,8 @@ import {LogoutComponent} from "./view/logout/logout.component";
 import { RegistretionComponent } from './view/registretion/registretion.component';
 import { UserFormComponent } from './view/profile/user-form/user-form.component';
 import { UserAccountFormComponent } from './view/profile/user-account-form/user-account-form.component';
+import { OrganisationComponent } from './view/profile/organisation/organisation.component';
+import { UserOrganisationComponent } from './view/profile/organisation/user-organisation/user-organisation.component';
 
 const formSetting: any = {
   redirectDelay: 500,
@@ -30,7 +32,7 @@ const formSetting: any = {
 };
 
 @NgModule({
-  declarations: [ProfileComponent,LogoutComponent, RegistretionComponent, UserFormComponent, UserAccountFormComponent],
+  declarations: [ProfileComponent,LogoutComponent, RegistretionComponent, UserFormComponent, UserAccountFormComponent, OrganisationComponent, UserOrganisationComponent],
     imports: [
         CommonModule,
         FormsModule,

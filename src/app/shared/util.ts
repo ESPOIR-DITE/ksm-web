@@ -1,22 +1,39 @@
 import {HttpHeaders} from "@angular/common/http";
 import {NbGlobalPhysicalPosition} from "@nebular/theme";
 import {Observable} from "rxjs";
+import {UserTokenService} from "../core/services/user/user-token-service";
+import {TokenService} from "../core/services/user/TokenService";
 
 export const STORE_TTL = 3600000;
 export const BASE_URL = 'https://arcane-crag-09873.herokuapp.com/ksm/';
 //export const BASE_URL = 'http://localhost:8080/ksm/';
 
+export const ROLE = {
+  USER: 'user',
+  ADMIN: 'admin',
+  TECHADMIN: 'tech-admin'
+}
+
 export class Util {
   static headers(): HttpHeaders {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-      // 'Authorization': 'Bearer szdp79a2kz4wh4frjzuqu4sz6qeth8m3',
-    });
-    return headers;
+    let headers: HttpHeaders = new HttpHeaders();
+  headers = headers.append('Authorization', `Bearer ${TokenService.getTokenFromSession()}`);
+  headers = headers.append('x-Flatten', 'true');
+  headers = headers.append('Access-Control-Allow-Origin', '*');
+  headers = headers.append('Content-Type', 'application/json');
+  return headers;
   }
+  // static headers(): HttpHeaders {
+  //   let headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${TokenService.getTokenFromSession()}`,
+  //     'Content-Type': 'application/json',
+  //     'Access-Control-Allow-Origin': 'http://localhost:1338/',
+  //     'Access-Control-Allow-Headers': 'authorization, Content-Type, Accept, x-auth-token',
+  //    'Access-Control-Allow-Methods': '*',
+  //     'Authorization': 'Bearer szdp79a2kz4wh4frjzuqu4sz6qeth8m3',
+  //   });
+  //   return headers;
+  // }
 }
 export class ChartPieData {
   value: number | undefined;
