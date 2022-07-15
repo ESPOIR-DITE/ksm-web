@@ -36,7 +36,7 @@ export class SellComponent implements OnInit {
       if(tasks){
         for (const task of tasks) {
           this.periodQuery.getSellPeriod(task.period).subscribe(period =>{
-            console.log(task)
+           // console.log(task)
             this.tasks.push(new PeriodTask(task.id,period?.period!,task.date,task.time,task.period))
           })
         }
@@ -86,7 +86,7 @@ export class SellComponent implements OnInit {
   getPeriodName(htmlComponent:  HTMLAnchorElement,periodId: string): string{
     //console.log(periodId)
     this.periodQuery.getSellPeriod(periodId).subscribe(result => {
-      console.log(result)
+      //console.log(result)
       return result?.period
     })
    return 'NA'

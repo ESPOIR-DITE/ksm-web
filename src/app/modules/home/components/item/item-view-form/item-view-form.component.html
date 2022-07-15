@@ -12,63 +12,37 @@
   <div class="col">
     <nb-card>
       <nb-card-header>
-        View Item
+        <img class="cropped2" src="data:image/jpeg;base64,{{icon}}"  >
       </nb-card-header>
       <nb-card-body [nbSpinner]="itemLoading"
                     nbSpinnerStatus="info"
                     nbSpinnerSize="large"
-                    nbSpinnerMessage="">
-        <form [formGroup]="itemForm">
-          <input type="text" formControlName="id"  class="form-control" id="id" required hidden>
-          <div class="mb-3 row">
-            <label for="name" class="col-sm-2 col-form-label ">Name</label>
-            <div class="col-sm-10">
-              <input type="text" formControlName="name"  class="form-control" id="name">
-              <ng-container *ngIf="itemFormFields['name'].invalid && itemFormFields['name'].touched">
-                Name is required!
-              </ng-container>
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="sellPrice" class="col-sm-2 col-form-label">Sell Price</label>
-            <div class="col-sm-10" >
-              <input type="text" formControlName="costPrice" class="form-control" id="sellPrice" name="sellPrice">
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="costPrice" class="col-sm-2 col-form-label">Interest Per Item</label>
-            <div class="col-sm-10">
-              <input type="text" value="{{item!.costPrice-costPrice}}"  class="form-control" id="costPrice">
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="description" class="col-sm-2 col-form-label">Description</label>
-            <div class="col-sm-10">
-              <input type="text" formControlName="description" class="form-control" id="description">
-            </div>
-          </div>
-        </form>
-      </nb-card-body>
-      <nb-card-footer>
+                    nbSpinnerMessage="" class="text-center">
         <div class="row">
           <div class="col">
-            <button type="button"  (click)="onBack()" class="btn btn-primary">Back
+            Item Icon
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#itemDetails">Update
             </button>
           </div>
-
-          <div class="col">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button"  (click)="onDelete()" class="btn btn-danger">Delete
-              </button>
-              <button type="button" [disabled]="itemForm?.pristine" (click)="onUpdate()"
-                      class="btn btn-warning">Update
-              </button>
-            </div>
-          </div>
         </div>
-
-      </nb-card-footer>
+      </nb-card-body>
     </nb-card>
+<!--    <div class="card">-->
+<!--      <img class="card-img-top cropped2" src="data:image/jpeg;base64,{{icon}}"  >-->
+<!--      <div class="card-body">-->
+<!--        <div class="row">-->
+<!--          <div class="col">-->
+<!--            Item Icon-->
+<!--          </div>-->
+<!--          <div class="d-grid gap-2 d-md-flex justify-content-md-end">-->
+<!--            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#itemDetails">Update-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
   <div class="col">
     <nb-card>
@@ -78,7 +52,8 @@
             Sell Price
           </div>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button class="btn btn-primary" type="button"data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Create
+            </button>
           </div>
         </div>
       </nb-card-header>
@@ -98,15 +73,17 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let sellPrice of sellPrices; let indexOfElement = index" >
-            <th scope="row"><a>{{indexOfElement+1}}</a></th>
-            <td >{{sellPrice.buyerTypeId}}</td>
+          <tr *ngFor="let sellPrice of sellPrices; let indexOfElement = index">
+            <th scope="row"><a>{{indexOfElement + 1}}</a></th>
+            <td>{{sellPrice.buyerTypeId}}</td>
             <td>{{sellPrice.price}}</td>
             <td>R {{sellPrice.date| date :'shortDate'}}</td>
-            <td >{{sellPrice.isActive}}</td>
-            <td > <button type="button" (click)="onRemoveItemIngredient(sellPrice.id)"
-                          class="btn btn-warning">remove
-            </button></td>
+            <td>{{sellPrice.isActive}}</td>
+            <td>
+              <button type="button" (click)="onRemoveItemIngredient(sellPrice.id)"
+                      class="btn btn-warning">remove
+              </button>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -115,7 +92,7 @@
         <div class="col">
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <label>Item Average Price : </label>
-            <a type="button"class="btn btn-info">{{averagePrice|number}}</a>
+            <a type="button" class="btn btn-info">{{averagePrice|number}}</a>
           </div>
         </div>
       </nb-card-footer>
@@ -136,7 +113,7 @@
             <div class="col-sm-10">
               <select class="form-select text-black" formControlName="ingredient" id="ingredient"
                       aria-label="Default select example">
-                <option selected >Open this select menu</option>
+                <option selected>Open this select menu</option>
                 <option *ngFor="let ingredient of ingredients" value="{{ingredient.id}}">{{ingredient.name}}</option>
               </select>
               <ng-container *ngIf="formFields['ingredient'].invalid && formFields['ingredient'].touched">
@@ -188,15 +165,17 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let itemIngredient of itemIngredientData; let indexOfElement = index" >
-            <th scope="row"><a>{{indexOfElement+1}}</a></th>
+          <tr *ngFor="let itemIngredient of itemIngredientData; let indexOfElement = index">
+            <th scope="row"><a>{{indexOfElement + 1}}</a></th>
             <td (click)="viewIngredient(itemIngredient.id)">{{itemIngredient.ingredientId}}</td>
             <td>{{itemIngredient.quantity}}</td>
             <td>R {{itemIngredient.entryId}}</td>
-            <td >{{itemIngredient.description}}</td>
-            <td > <button type="button" (click)="onRemoveItemIngredient(itemIngredient.id)"
-                          class="btn btn-warning">remove
-            </button></td>
+            <td>{{itemIngredient.description}}</td>
+            <td>
+              <button type="button" (click)="onRemoveItemIngredient(itemIngredient.id)"
+                      class="btn btn-warning">remove
+              </button>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -205,7 +184,7 @@
         <div class="col">
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <label>Total Cost of the Item: </label>
-            <a type="button"class="btn btn-info">{{costPrice}}</a>
+            <a type="button" class="btn btn-info">{{costPrice}}</a>
           </div>
         </div>
       </nb-card-footer>
@@ -227,15 +206,15 @@
           <div class="mb-3 row">
             <label for="buyerTypeId" class="col-sm-2 col-form-label text-black">buyer type</label>
             <div class="col-sm-10">
-            <select class="form-select text-black" formControlName="buyerTypeId" id="buyerTypeId"
-                    aria-label="Default select example">
-              <option selected disabled>Open this select Buyer Type</option>
-              <option *ngFor="let buyerType of buyerTypes" value="{{buyerType.id}}">{{buyerType.name}}</option>
-            </select>
+              <select class="form-select text-black" formControlName="buyerTypeId" id="buyerTypeId"
+                      aria-label="Default select example">
+                <option selected disabled>Open this select Buyer Type</option>
+                <option *ngFor="let buyerType of buyerTypes" value="{{buyerType.id}}">{{buyerType.name}}</option>
+              </select>
             </div>
           </div>
           <div class="mb-3 row">
-            <label for="price"  class="col-sm-2 col-form-label text-black">price</label>
+            <label for="price" class="col-sm-2 col-form-label text-black">price</label>
             <div class="col-sm-10">
               <input type="text" formControlName="price" class="form-control" id="price">
             </div>
@@ -243,23 +222,90 @@
           <div class="mb-3 row">
             <label for="date" class="col-sm-2 col-form-label text-black">Date</label>
             <div class="col-sm-10">
-              <input type="date"formControlName="date" class="form-control" id="date">
+              <input type="date" formControlName="date" class="form-control" id="date">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="isActive" class="col-sm-2 col-form-label text-black">Active</label>
             <div class="col-sm-10">
-              <select class="form-select text-black" formControlName="isActive" id="isActive" aria-label="Default select example">
+              <select class="form-select text-black" formControlName="isActive" id="isActive"
+                      aria-label="Default select example">
                 <option selected disabled>Select One</option>
                 <option value="true">active</option>
-                <option  value="false">deactivate</option>
+                <option value="false">deactivate</option>
               </select>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" [disabled]="itemSellPriceForm?.invalid" (click)="onSubmitSellPrice()" data-bs-dismiss="modal" class="btn btn-primary">Save</button>
+        <button type="button" [disabled]="itemSellPriceForm?.invalid" (click)="onSubmitSellPrice()"
+                data-bs-dismiss="modal" class="btn btn-primary">Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="itemDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-black">Item Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="itemForm">
+          <input type="text" formControlName="id" class="form-control" id="id" required hidden>
+          <div class="mb-3 row">
+            <label for="name" class="col-sm-2 col-form-label ">Name</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="name" class="form-control" id="name">
+              <ng-container *ngIf="itemFormFields['name'].invalid && itemFormFields['name'].touched">
+                Name is required!
+              </ng-container>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="sellPrice" class="col-sm-2 col-form-label">Sell Price</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="costPrice" class="form-control" id="sellPrice" name="sellPrice">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="costPrice" class="col-sm-2 col-form-label">Interest Per Item</label>
+            <div class="col-sm-10">
+              <input type="text" value="{{item!.costPrice-costPrice}}" class="form-control" id="costPrice">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="icon" class="col-sm-2 col-form-label">Icon</label>
+            <div class="col-sm-10">
+              <input type="file" formControlName="image" (change)="onFile($event)" class="form-control" id="icon">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="description" class="form-control" id="description">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col">
+            <button type="button" (click)="onDelete()" class="btn btn-danger">Delete
+            </button>
+          </div>
+          <div class="col">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+              <button type="button" [disabled]="itemForm?.pristine" (click)="onUpdate()" class="btn btn-warning">
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

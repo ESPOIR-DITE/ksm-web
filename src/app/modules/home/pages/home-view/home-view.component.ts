@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-home-view',
   templateUrl: './home-view.component.html',
+  styleUrls: ['./home-view.component.scss']
 })
 export class HomeViewComponent implements OnInit {
   menu= MAIN_MENU ;
@@ -20,16 +21,6 @@ export class HomeViewComponent implements OnInit {
   }
   ngOnInit(): void {
 
-  }
-  isLogin(){
-    if(this.userTokenQuery.isLogin()&&this.tokenService.getTokenFromSession()){
-      this.userAccountQuery.validateToken(this.tokenService.getTokenFromSession()!).subscribe( result =>{
-        if(result) this.route.navigate(['index/home'])
-        this.route.navigate(['auth'])
-      })
-    }else{
-      this.route.navigate(['auth'])
-    }
   }
 
 }

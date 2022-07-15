@@ -9,6 +9,8 @@ import {UserQuery} from "../../core/queries/user/user-query";
 import {UserAccountQuery} from "../../core/queries/user/user-account-query";
 import {RoleQuery} from "../../core/queries/user/role-query";
 import {OrganisationQuery} from "../../core/queries/organisation/organisation.query";
+import {NgxSpinnerService} from "ngx-spinner";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -50,6 +52,7 @@ import {OrganisationQuery} from "../../core/queries/organisation/organisation.qu
       <nb-sidebar>
         <nb-menu [items]="menu"></nb-menu></nb-sidebar>
       <nb-layout-column>
+        <ngx-spinner [disableAnimation]="false" bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type ="ball-scale-multiple" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
         <router-outlet></router-outlet>
       </nb-layout-column>
       <nb-layout-footer>Contact us</nb-layout-footer>
@@ -60,15 +63,16 @@ export class HomeComponent implements OnInit {
   menu= MAIN_MENU ;
   userName = 'John Doe';
   role = ''
-  organisation = ''
-  constructor(private tokeService: TokenService,
+  organisation = 'Business Name'
+  constructor(private route: Router, private spinner: NgxSpinnerService,private tokeService: TokenService,
   private userQuery: UserQuery, private userAccountQuery: UserAccountQuery, private organisationQuery: OrganisationQuery,
   private roleQuery: RoleQuery, private token: TokenDecoder) {
   }
   ngOnInit(): void {
-    console.log(this.tokeService.getTokenFromSession())
-    if (this.tokeService.getTokenFromSession())
-    console.log(this.token.getUserRole(this.tokeService.getTokenFromSession()!));
+    this.spinner.show();
+    // console.log(this.tokeService.getTokenFromSession())
+    if (this.tokeService.getTokenFromSession()) console.log(this.token.getUserRole(this.tokeService.getTokenFromSession()!));
+    else this.route.navigate(['/auth/login'])
     this.getUser();
     this.getOrganisationAndRole()
   }
@@ -87,11 +91,16 @@ export class HomeComponent implements OnInit {
       if(userAccount){
         this.roleQuery.getRole(userAccount.roleId).subscribe(role => {
           if(role) this.role = role.role
+
         })
         this.organisationQuery.getOrganisation(userAccount.organizationId).subscribe( organisation =>{
           if(organisation) this.organisation = organisation.name;
+          this.spinner.hide()
         })
       }
+
+      this.route.navigate(['home'])
+        this.spinner.hide()
       })
     }
   }

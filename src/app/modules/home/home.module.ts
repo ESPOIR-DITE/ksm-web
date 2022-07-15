@@ -17,7 +17,6 @@ import { EntryComponent } from './components/entry/entry.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { SellComponent } from './components/sell/sell.component';
 import {HomeComponent} from "./home.component";
-import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import {ReactiveFormsModule} from "@angular/forms";
 import { QuantityTypeComponent } from './components/quantity-type/quantity-type.component';
 import { IngredientCreateFormComponent } from './components/ingredient/ingredient-create-form/ingredient-create-form.component';
@@ -38,38 +37,43 @@ import { CreateSellComponent } from './components/sell/create-sell/create-sell.c
 import { MonthSellComponent } from './components/sell/month-sell/month-sell.component';
 import { BuyerTypeComponent } from './components/buyer-type/buyer-type.component';
 import {NbAuthModule, NbPasswordAuthStrategy} from "@nebular/auth";
+import {NgxSpinnerModule} from "ngx-spinner";
+import { OrganisationComponent } from './components/organisation/organisation.component';
+import { UserComponent } from './components/organisation/user/user.component';
+import { CompanyComponent } from './components/organisation/company/company.component';
+import { UserWindowComponent } from './components/organisation/user/user-window/user-window.component';
 
 
 @NgModule({
   declarations: [
-  HomeViewComponent,HomeComponent, ItemComponent, IngredientComponent, EntryComponent, TransactionsComponent, SellComponent, QuantityTypeComponent, IngredientCreateFormComponent, IngredientViewFormComponent, ItemViewFormComponent, ItemCreateFormComponent, EntryCreateFormComponent, EntryViewFormComponent, TransactionTypeComponent, StockComponent, WeekSellComponent, DaySellComponent, PeriodComponent, CreateSellComponent, MonthSellComponent, BuyerTypeComponent
+  HomeViewComponent,HomeComponent, ItemComponent, IngredientComponent, EntryComponent, TransactionsComponent, SellComponent, QuantityTypeComponent, IngredientCreateFormComponent, IngredientViewFormComponent, ItemViewFormComponent, ItemCreateFormComponent, EntryCreateFormComponent, EntryViewFormComponent, TransactionTypeComponent, StockComponent, WeekSellComponent, DaySellComponent, PeriodComponent, CreateSellComponent, MonthSellComponent, BuyerTypeComponent, OrganisationComponent, UserComponent, CompanyComponent, UserWindowComponent
    ],
-  imports: [
-    CommonModule,
-    NbLayoutModule,
-    CoreModule,
-    NbLayoutModule,
-    NbSidebarModule,
-    HomeRoutingModule,
-    NbMenuModule,
-    NbCardModule,
-    Ng2SmartTableModule,
-    ReactiveFormsModule,
-    NbToastrModule.forRoot(),
-    NbSpinnerModule,
-    NgxEchartsModule,
-    ChartsModule,
-    NbAuthModule.forRoot({
-      strategies: [
-        NbPasswordAuthStrategy.setup({
-          name: 'email',
+    imports: [
+        CommonModule,
+        NbLayoutModule,
+        CoreModule,
+        NbLayoutModule,
+        NbSidebarModule,
+        HomeRoutingModule,
+        NbMenuModule,
+        NbCardModule,
+        ReactiveFormsModule,
+        NbToastrModule.forRoot(),
+        NbSpinnerModule,
+        NgxEchartsModule,
+        ChartsModule,
+        NbAuthModule.forRoot({
+            strategies: [
+                NbPasswordAuthStrategy.setup({
+                    name: 'email',
+                }),
+            ],
+            forms: {},
         }),
-      ],
-      forms: {},
-    }),
-    NbUserModule,
-    NbPopoverModule,
-  ],
+        NbUserModule,
+        NbPopoverModule,
+        NgxSpinnerModule,
+    ],
   providers: [NbSidebarService,NbToastrService]
 })
 export class HomeModule { }

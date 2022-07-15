@@ -85,7 +85,7 @@ export class UserAccountFormComponent implements OnInit {
     if(this.userAccountForm.invalid) return;
     const userAccount = this.getUserAccount()
     if(userAccount!=null){
-      this.userAccountQuery.createUser(userAccount,true).subscribe(result=>{
+      this.userAccountQuery.createUserAccount(userAccount,true).subscribe(result=>{
         if(result){
           this.showToast(STATUS.SUCCESS,'Success','You have updated your profile')
           this.userAccountSpinner = false;

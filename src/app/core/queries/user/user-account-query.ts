@@ -26,7 +26,7 @@ export class UserAccountQuery extends QueryEntity<UserAccountState, UserAccount>
     private userTokenService: UserTokenService) {
     super(store);
   }
-  createUser(entity: UserAccount, isUpdate:boolean): Observable<UserAccount>{
+  createUserAccount(entity: UserAccount, isUpdate:boolean): Observable<UserAccount>{
     if(isUpdate)return this.service.updateEntity(entity)
       return this.service.createEntity(entity)
   }
@@ -39,6 +39,13 @@ export class UserAccountQuery extends QueryEntity<UserAccountState, UserAccount>
     if(!this.hasEntity(email))
       return this.service.readEntityWithEmail(email)
     return this.selectEntity(({email}) => email === email)
+  }
+  getUserAccountsWithOrganisationId(organisationId: string): Observable<UserAccount[]>{
+    if(!this.hasEntity())
+      return this.service.getUserAccountsWithOrganisationId(organisationId)
+    return this.selectAll({
+      filterBy: entity => entity.organizationId ===organisationId
+    })
   }
 
   deleteEntity(entity: UserAccount): Observable<Boolean>{

@@ -22,6 +22,7 @@ import {SellPrice} from "../../../../../core/models/sell/sell-price.model";
 export class ItemViewFormComponent implements OnInit {
   data: ChartPieData[]=[];
   item: Item | undefined;
+  icon: string | undefined;
   ingredients: Ingredient[]|undefined;
   itemIngredients: ItemIngredient[]|undefined;
   itemIngredientData: Array<ItemIngredient> | undefined = [];
@@ -34,12 +35,15 @@ export class ItemViewFormComponent implements OnInit {
   itemAverage = 0;
   itemPriceNumber= 0;
   averagePrice = 0;
+  toUpdateImageByteArray: string | undefined ;
   //First form.
   itemForm = new FormGroup({
     id: new FormControl('',Validators.required),
     name: new FormControl('',Validators.required),
     costPrice: new FormControl(''),
     description: new FormControl(''),
+    iconString: new FormControl(''),
+    image: new FormControl('')
   })
   //Second form.
   itemIngredientForm = new FormGroup({
@@ -67,17 +71,19 @@ export class ItemViewFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.route.params.subscribe(params => {
       const  id = params['id'];
       if(id){
         this.itemQuery.getItem(id).subscribe( result =>{
           this.item = result;
+           // console.log(result?.icon)
+          this.icon = result?.icon
           this.itemForm.patchValue({
             id: result?.id,
             name : result?.name,
             description: result?.description,
-            costPrice: result?.costPrice
+            costPrice: result?.costPrice,
+            image: result?.image,
           })
           this.itemLoading = false;
         })
@@ -164,15 +170,29 @@ export class ItemViewFormComponent implements OnInit {
   onBack(){
     this.router.navigate(['/item'])
   }
-  getItem(): Item{
-    return new Item(this.itemForm.value.id,this.itemForm.value.name,this.itemForm.value.costPrice,this.itemForm.value.description)
+  getItem(): Item|undefined{
+    if(this.toUpdateImageByteArray)
+    return new Item(this.itemForm.value.id,this.itemForm.value.name,this.itemForm.value.costPrice,this.itemForm.value.description,'',this.toUpdateImageByteArray)
+    return undefined
   }
   getItemIngredient():ItemIngredient{
     return new ItemIngredient('',this.itemForm.value.id,this.itemIngredientForm.value.ingredient,this.itemIngredientForm.value.quantity,this.itemIngredientForm.value.description)
   }
+  onFile(event:any){
+    const file = event.target.files[0]
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const bytes = e.target.result.split('base64,')[1];
+      console.log(bytes)
+       this.toUpdateImageByteArray = bytes;
+    };
+    reader.readAsDataURL(file);
+  }
+
   onUpdate(){
     if(this.itemForm?.invalid) return;
     let item = this.getItem();
+    console.log(item)
     if(item!=null){
       this.itemQuery.createItem(item,true).subscribe(result => {
         if(result){
@@ -238,5 +258,4 @@ export class ItemViewFormComponent implements OnInit {
     const titleContent = title ? `${title}` : '';
     this.toasterService.show(body, `${titleContent}`, toastConfig);
   }
-
 }

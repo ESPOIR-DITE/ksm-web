@@ -13,7 +13,7 @@ const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Products',
-    icon: 'expand-outline',
+    icon: 'archive-outline',
     home: true,
     children: [
       {
@@ -58,7 +58,7 @@ const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Transaction',
-    icon: 'expand-outline',
+    icon: 'car-outline',
     home: true,
     children: [
       {
@@ -87,6 +87,23 @@ const MENU_ITEMS: NbMenuItem[] = [
         link: '/buyer-type',
       },
 
+    ],
+  },
+  {
+    title: 'Organisation',
+    icon: 'people-outline',
+    home: true,
+    children: [
+      {
+        title: 'Company',
+        icon: 'at-outline',
+        link: '/company',
+      },
+      {
+        title: 'Employees',
+        icon: 'people-outline',
+        link: '/employees',
+      },
     ],
   },
   {

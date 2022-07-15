@@ -2,7 +2,7 @@
   <input type="email"  formControlName="email" nbInput fullWidth status="primary" placeholder="email"hidden>
   <div class="mb-3 row text-center">
     <div class="col-sm-10">
-      <input type="text" id="name" formControlName="email" nbInput fullWidth status="primary" placeholder="Julie">
+      <input type="text" id="name" formControlName="name" nbInput fullWidth status="primary" placeholder="Julie" readonly>
       <ng-container *ngIf="formFields['name'].invalid && formFields['name'].touched">
         <p class="text-danger">Name is required!</p>
       </ng-container>

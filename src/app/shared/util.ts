@@ -6,7 +6,7 @@ import {TokenService} from "../core/services/user/TokenService";
 
 export const STORE_TTL = 3600000;
 export const BASE_URL = 'https://arcane-crag-09873.herokuapp.com/ksm/';
-//export const BASE_URL = 'http://localhost:8080/ksm/';
+//export const BASE_URL = 'http://localhost:9000/ksm/';
 
 export const ROLE = {
   USER: 'user',

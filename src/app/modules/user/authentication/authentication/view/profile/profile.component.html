@@ -2,19 +2,31 @@
 <h3 class="text-center"><strong>Profile</strong></h3>
     <nb-tabset class="pt-1">
       <nb-tab tabIcon="person-outline">
-        <p><strong>Identity</strong></p>
-        <p>Name:  <strong>{{user?.firstName}}</strong>.</p>
-        <p>Lastname:  <strong>{{user?.lastName}}</strong>.</p>
-        <p>Middle Name: <strong>{{user?.middleName}}</strong>.</p>
-        <button (click)="openWindowUser()" nbButton>Update</button>
+        <p  class="text-center text-info"><strong>IDENTITY</strong></p>
+        <div class="row text-center">
+          <div class="col text-info">
+            <p class="text-info">Name:  </p>
+            <p class="text-info">Lastname:  </p>
+            <p class="text-info">Middle Name:</p>
+          </div>
+          <div class="col">
+            <p> <strong>{{user?.firstName}}</strong>.</p>
+            <p>  <strong>{{user?.lastName}}</strong>.</p>
+            <p><strong>{{user?.middleName}}</strong>.</p>
+          </div>
+        </div>
+        <div class=" text-center">
+        <button  (click)="openWindowUser()" nbButton>Update</button>
+        </div>
       </nb-tab>
-      <nb-tab [tabIcon]="bellIconConfig">
+      <nb-tab [tabIcon]="awardOutline">
+        <p  class="text-center text-info"><strong>ROLE</strong></p>
         <p>Role : <strong>{{userRole}}</strong>.</p>
         <p>State: <strong>{{userAccount?.state}}</strong>.</p>
         <p>Date : <strong>{{userAccount?.date|date}}</strong>.</p>
         <button (click)="openWindowUserAccount()" nbButton>Update</button>
       </nb-tab>
-      <nb-tab tabIcon="email-outline">
+      <nb-tab tabIcon="options-outline">
         <p><strong>User Organisation</strong></p>
         <p *ngIf="userOrganisation; else elseuserOrganisation">Organisation: <strong>{{userOrganisation?.name}}</strong>.</p>
         <ng-template #elseuserOrganisation>
@@ -22,7 +34,7 @@
         </ng-template>
       </nb-tab>
 
-      <nb-tab tabIcon="email-outline" >
+      <nb-tab tabIcon="person-done-outline" >
         <p><strong>Your Organisation(s)</strong></p>
         <div *ngIf="userOrganisation; else elseOrganisation">
           <p>Organisation: <strong>{{userOrganisation.name}}</strong>.</p>

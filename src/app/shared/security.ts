@@ -59,18 +59,21 @@ export class TokenDecoder{
     return output;
   }
   public decodeToken(token: string): any {
-    const parts = token.split('.');
+    if(token){
+      const parts = token.split('.');
 
-    if (parts.length !== 3) {
-      throw new Error('JWT must have 3 parts');
+      if (parts.length !== 3) {
+        throw new Error('JWT must have 3 parts');
+      }
+
+      const decoded = this.urlBase64Decode(parts[1]);
+      if (!decoded) {
+        throw new Error('Cannot decode the tokenDecoder');
+      }
+
+      return JSON.parse(decoded);
     }
 
-    const decoded = this.urlBase64Decode(parts[1]);
-    if (!decoded) {
-      throw new Error('Cannot decode the tokenDecoder');
-    }
-
-    return JSON.parse(decoded);
   }
 
   public getTokenExpirationDate(token: string): Date | null {

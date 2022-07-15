@@ -26,6 +26,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     const email = this.tokenService.getEmailFromSession();
+    console.log(email)
     if(email){
       this.userQuery.getSUsers(email).subscribe(user =>{
         this.userForm.patchValue({

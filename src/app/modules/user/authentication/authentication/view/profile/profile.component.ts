@@ -21,6 +21,7 @@ import {RoleQuery} from "../../../../../../core/queries/user/role-query";
 })
 export class ProfileComponent implements OnInit {
   bellIconConfig: NbIconConfig = { icon: 'bell-outline', pack: 'eva' };
+  awardOutline: NbIconConfig = { icon: 'award-outline', pack: 'eva' };
   organisations: Organisation[] | undefined;
   user: Users | undefined;
   userAccount: UserAccount | undefined;

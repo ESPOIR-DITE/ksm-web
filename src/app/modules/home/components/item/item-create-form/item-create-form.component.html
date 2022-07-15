@@ -20,6 +20,12 @@
         </div>
       </div>
       <div class="mb-3 row">
+        <label for="brand" class="col-sm-2 col-form-label ">Icon</label>
+        <div class="col-sm-10">
+          <input type="file" maxlength="1200" accept="image/jpeg" formControlName="icon" class="form-control" id="icon" (change)="onFile($event)">
+        </div>
+      </div>
+      <div class="mb-3 row">
         <label for="description" class="col-sm-2 col-form-label ">Description</label>
         <div class="col-sm-10">
           <input type="text" formControlName="description" class="form-control" id="description">
@@ -36,8 +42,7 @@
       </div>
       <div class="col">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button type="button" [disabled]="itemForm?.invalid" (click)="onSubmit()"
-                  class="btn btn-primary">Save
+          <button type="button" class="btn btn-primary" [disabled]="itemForm.invalid" (click)="onSubmit()">Save
           </button>
         </div>
       </div>

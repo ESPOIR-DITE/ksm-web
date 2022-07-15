@@ -32,6 +32,9 @@ export class RegistretionComponent implements OnInit {
   getOrganisations(){
 
   }
+  onLogin(){
+    this.route.navigate(['auth/login'])
+  }
   getUser(){
     return new Users(this.userAccountForm.value.email,this.userAccountForm.value.name,'','')
   }
@@ -45,11 +48,12 @@ export class RegistretionComponent implements OnInit {
     const user = this.getUser()
     const userAccount = this.getUserAccount()
 
-    this.userAccountQuery.createUser(userAccount,false).subscribe(resultUserAccount => {
+    this.userAccountQuery.createUserAccount(userAccount,false).subscribe(resultUserAccount => {
       if(resultUserAccount!=null){
         this.userQuery.createUser(user,false).subscribe(resultUser => {
           if(resultUser!=null){
             this.showToast(STATUS.SUCCESS,'Success', 'Registered successfully.')
+            this.route.navigate(['/auth/login']).then()
           }
         })
       }else{

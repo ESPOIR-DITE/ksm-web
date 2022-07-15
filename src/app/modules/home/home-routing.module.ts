@@ -25,6 +25,8 @@ import {MonthSellComponent} from "./components/sell/month-sell/month-sell.compon
 import {CreateSellComponent} from "./components/sell/create-sell/create-sell.component";
 import {BuyerTypeComponent} from "./components/buyer-type/buyer-type.component";
 import {AuthGuard} from "../../core/services/AuthGuard";
+import {UserComponent} from "./components/organisation/user/user.component";
+import {OrganisationComponent} from "./components/organisation/organisation.component";
 
 const routes: Routes = [{
   path: '',
@@ -52,6 +54,9 @@ const routes: Routes = [{
     {path: 'stock', component: StockComponent, canActivate: [AuthGuard]},
     {path: 'period', component: PeriodComponent, canActivate: [AuthGuard]},
     {path: 'buyer-type', component: BuyerTypeComponent, canActivate: [AuthGuard]},
+    {path: 'company', component: OrganisationComponent, canActivate: [AuthGuard]},
+    {path: 'employees', component: UserComponent, canActivate: [AuthGuard]},
+
     // { path: '**', redirectTo: '' },
   ]
 }];

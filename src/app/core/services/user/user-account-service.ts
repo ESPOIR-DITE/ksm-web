@@ -119,4 +119,13 @@ export class UserAccountService {
         catchError(ApiErrors.handleError<UserAccount[]>('reads error'))
       )
   }
+  public  getUserAccountsWithOrganisationId(organisationId: string):Observable<UserAccount[]>{
+    const url = this.base+'read-with?organisation-id='+organisationId;
+    return this.http.get<UserAccount[]>(url,this.options)
+      .pipe(
+        tap(result => this.store.set(result)),
+        catchError(ApiErrors.handleError<UserAccount[]>('reads error'))
+      )
+  }
+
 }

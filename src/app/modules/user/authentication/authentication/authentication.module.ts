@@ -42,7 +42,6 @@ const formSetting: any = {
         NbButtonModule,
         NbCheckboxModule,
         AuthenticationRoutingModule,
-
         NbAuthModule.forRoot({
             strategies: [
                 NbPasswordAuthStrategy.setup({

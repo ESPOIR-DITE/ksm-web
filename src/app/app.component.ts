@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MAIN_MENU} from "./core/menus/main-menu";
 import {Router} from "@angular/router";
 
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('we are in app.component')
-    //this.route.navigate(['/auth'])
+    //console.log('we are in app.component')
+    this.route.navigate(['/index/home'])
   }
 }
